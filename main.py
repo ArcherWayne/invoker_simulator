@@ -7,7 +7,7 @@ from debug import debug
 pygame.init()
 screen = pygame.display.set_mode(setting.window_size)
 
-# pygame.display.set_caption('window_name')
+pygame.display.set_caption('Invoker Simulator')
 # pygame.display.set_icon(pygame.image.load('assets/blade game.png'))
 # background_surface = pygame.transform.scale(
 #     pygame.image.load('assets/background/ground.png').convert(), (setting.WIN_WIDTH, setting.WIN_HEIGTH))
@@ -16,7 +16,8 @@ screen = pygame.display.set_mode(setting.window_size)
 # font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
 ## varibles setup
-game_active = True
+game_state_list = ['active', 'begin_menu', 'fail']
+game_state = game_state_list[0]
 
 # class setup
 # class = Class()
@@ -40,7 +41,7 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-        if game_active:
+        if game_state == game_state_list[0]:    # 游戏正在执行
             screen.fill(setting.WHITE)
             # screen.blit(background_surface, background_rect)
             all_sprites.update()
