@@ -8,9 +8,12 @@ class Graphics:
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
             '5':'Chaos Meteor', '6':'Cold Snap', '7':'Ice Wall', '8':'Forge Spirit', '9':'Sun Strike'}
-
+        
         # font
         self.game_font = pygame.font.Font('assets/font/PoetsenOne-Regular.ttf', 25)
+
+        # self.obtained_orbs = ['Quas', 'Quas', 'Quas']
+        # self.obtained_orbs = ['', '', '']
 
         # image
         # self.image = pygame.Surface(player_size)
@@ -58,11 +61,16 @@ class Graphics:
         self.Wex_image_slot = pygame.transform.scale(self.Wex_image, slot_size)
         self.Wex_image_skill = pygame.transform.scale(self.Wex_image, skill_size)
 
+        self.Quas_image_icon = pygame.transform.scale(self.Quas_image, icon_size)
+        self.Wex_image_icon = pygame.transform.scale(self.Wex_image, icon_size)
+        self.Extort_image_icon = pygame.transform.scale(self.Extort_image, icon_size)
+
         # self.skill_image_dict 
         self.skill_image_slot_dict = {'0':self.EMP_image_slot, '1':self.Tornado_image_slot, '2':self.Alacrity_image_slot, '3':self.GhostWalk_image_slot, '4':self.DeafeningBlast_image_slot, 
             '5':self.ChaosMeteor_image_slot, '6':self.ColdSnap_image_slot, '7':self.IceWall_image_slot, '8':self.ForgeSpirit_image_slot, '9':self.SunStrike_image_slot}
         self.skill_image_skill_dict = {'0':self.EMP_image_skill, '1':self.Tornado_image_skill, '2':self.Alacrity_image_skill, '3':self.GhostWalk_image_skill, '4':self.DeafeningBlast_image_skill, 
             '5':self.ChaosMeteor_image_skill, '6':self.ColdSnap_image_skill, '7':self.IceWall_image_skill, '8':self.ForgeSpirit_image_skill, '9':self.SunStrike_image_skill}
+        self.skill_image_icon_dict = {'0':self.Quas_image_icon, '1':self.Wex_image_icon, '2':self.Extort_image_icon}
 
         # rect
         self.Quas_slot_rect = self.Quas_image_slot.get_rect(topleft = (35, 690))
@@ -71,6 +79,9 @@ class Graphics:
         self.Invoke_slot_rect = self.Invoke_image_slot.get_rect(topleft = (305, 690))
         self.slot_1_rect = pygame.Rect((395, 690), slot_size)
         self.slot_2_rect = pygame.Rect((485, 690), slot_size)
+        self.icon_1_rect = pygame.Rect((230, 630), icon_size)
+        self.icon_2_rect = pygame.Rect((280, 630), icon_size)
+        self.icon_3_rect = pygame.Rect((330, 630), icon_size)
 
         # position
         # self.rect = self.image.get_rect(midtop=(300, 700))
@@ -87,8 +98,9 @@ class Graphics:
     #     self.pos.x += self.direction.x * self.speed * dt
     #     self.rect.x = round(self.pos.x)
 
-    def obtain_skill_slot(self, slot):
+    def obtain_info(self, slot, orb):
         self.slot = slot
+        self.obtained_orbs = orb
 
     def draw_slots(self):
         screen.blit(self.Quas_image_slot, self.Quas_slot_rect)
@@ -103,6 +115,28 @@ class Graphics:
             if self.slot[1] == self.skill_dict[key]:
                 screen.blit(self.skill_image_slot_dict[key], self.slot_2_rect)
 
+    def draw_icons(self):
+        match self.obtained_orbs[0]:
+            case 'Quas':
+                screen.blit(self.skill_image_icon_dict['0'], self.icon_1_rect)
+            case 'Wex':
+                screen.blit(self.skill_image_icon_dict['1'], self.icon_1_rect)
+            case 'Extort':
+                screen.blit(self.skill_image_icon_dict['2'], self.icon_1_rect)
+        match self.obtained_orbs[1]:
+            case 'Quas':
+                screen.blit(self.skill_image_icon_dict['0'], self.icon_2_rect)
+            case 'Wex':
+                screen.blit(self.skill_image_icon_dict['1'], self.icon_2_rect)
+            case 'Extort':
+                screen.blit(self.skill_image_icon_dict['2'], self.icon_2_rect)
+        match self.obtained_orbs[2]:
+            case 'Quas':
+                screen.blit(self.skill_image_icon_dict['0'], self.icon_3_rect)
+            case 'Wex':
+                screen.blit(self.skill_image_icon_dict['1'], self.icon_3_rect)
+            case 'Extort':
+                screen.blit(self.skill_image_icon_dict['2'], self.icon_3_rect)
 
 
     def draw_key(self):
@@ -132,5 +166,6 @@ class Graphics:
 
     def update(self):
         self.draw_slots()
+        self.draw_icons()
         self.draw_key()
 

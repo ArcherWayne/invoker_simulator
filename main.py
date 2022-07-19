@@ -62,10 +62,10 @@ def main():
             # screen.blit(background_surface, background_rect)
             # all_sprites.update()
             # all_sprites.draw(screen)
-            graphics.obtain_skill_slot(main_game.slot)
+            graphics.obtain_info(main_game.slot, main_game.obtained_orbs)
             graphics.update()
 
-        debug(main_game.obtained_orbs)
+        debug(graphics.obtained_orbs)
         debug(main_game.slot, y = 30)
         pygame.display.update()
 

@@ -15,18 +15,31 @@ class MainGame:
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
             '5':'Chaos Meteor', '6':'Cold Snap', '7':'Ice Wall', '8':'Forge Spirit', '9':'Sun Strike'}
-        # 0 EMP
-        # 1 Tornado
-        # 2 Alacrity
-        # 3 Ghost Walk
-        # 4 Deafening Blast
-        # 5 Chaos Meteor
-        # 6 Cold Snap
-        # 7 Ice Wall
-        # 8 Forge Spirirt
-        # 9 Sun Strike
+        self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', }
+        # 0 EMP www C
+        # 1 Tornado qww X
+        # 2 Alacrity wwe Z
+        # 3 Ghost Walk qqw V
+        # 4 Deafening Blast qwe B
+        # 5 Chaos Meteor wee D
+        # 6 Cold Snap qqq Y
+        # 7 Ice Wall qqe G
+        # 8 Forge Spirirt qee F
+        # 9 Sun Strike eee T
 
-        self.obtained_orbs = []
+        # qqq=急速冷却 Y 受到冰元素影响
+        # qqw=幽冥漫步 V 受到冰元素影响
+        # qww=飓风 X 伤害和距离主要取决于雷、持续时间取决于冰
+        # qwe=超声波 B 受雷元素影响击退时间
+        # www=磁暴 C 受雷元素影响炸蓝数量
+        # wwe=灵动迅捷 Z 雷元素影响攻速、火元素影响攻击力
+        # wee=陨石 D 受火元素影响伤害
+        # eee=天火 T 受火元素影响伤害
+        # eqq=冰墙 G 收到冰元素
+        # eeq=火人 F 冰火同时大于4时可以召唤双火人
+
+        # self.obtained_orbs = []
+        self.obtained_orbs = ['', '', '']
         self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
 
         self.slot = ['', '']
@@ -131,17 +144,6 @@ class MainGame:
                 
             self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
 
-
-        # qqq=急速冷却 Y 受到冰元素影响
-        # qqw=幽冥漫步 V 受到冰元素影响
-        # qww=飓风 X 伤害和距离主要取决于雷、持续时间取决于冰
-        # qwe=超声波 B 受雷元素影响击退时间
-        # www=磁暴 C 受雷元素影响炸蓝数量
-        # wwe=灵动迅捷 Z 雷元素影响攻速、火元素影响攻击力
-        # wee=陨石 D 受火元素影响伤害
-        # eee=天火 T 受火元素影响伤害
-        # eqq=冰墙 G 收到冰元素
-        # eeq=火人 F 冰火同时大于4时可以召唤双火人
     def use_skill(skill):
         pass
 
