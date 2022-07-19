@@ -1,2 +1,2 @@
-            # all_sprites.update()
-            # all_sprites.draw(screen)
+            drop_group.update()
+            drop_group.draw(screen)

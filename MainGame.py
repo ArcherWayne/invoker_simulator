@@ -2,7 +2,7 @@
 # from numpy import obj2sctype
 from re import L
 import pygame
-import setting
+from setting import *
 from debug import debug
 
 
@@ -16,6 +16,8 @@ class MainGame:
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
             '5':'Chaos Meteor', '6':'Cold Snap', '7':'Ice Wall', '8':'Forge Spirit', '9':'Sun Strike'}
+        self.skill_dict_reverse = {'EMP':'0', 'Tornado':'1', 'Alacrity':'2', 'Ghost Walk':'3', 'Deafening Blast':'4', \
+            'Chaos Meteor':'5', 'Cold Snap':'6', 'Ice Wall':'7', 'Forge Spirit':'8', 'Sun Strike':'9'}
         self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', }
         # 0 EMP www C
         # 1 Tornado qww X
@@ -45,6 +47,15 @@ class MainGame:
 
         self.slot = ['', '']
         self.key_list = []
+
+        # collsion_rect
+        # self.red_rect = pygame.Rect((20, 500), (560, 120))
+        # pygame.Surface((560, 120))
+        self.red_surf = pygame.Surface((560, 120), pygame.SRCALPHA, 32).convert_alpha()
+        self.red_surf.fill(RED)
+        # self.red_surf.set_colorkey(RED, 50)
+        self.red_rect = self.red_surf.get_rect(topleft = (20, 500))
+
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -151,7 +162,7 @@ class MainGame:
             print(skill)
 
     def update(self):
-        pass
+        screen.blit(self.red_surf, self.red_rect)
 
 
 

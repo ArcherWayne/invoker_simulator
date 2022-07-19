@@ -8,7 +8,12 @@ class Graphics:
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
             '5':'Chaos Meteor', '6':'Cold Snap', '7':'Ice Wall', '8':'Forge Spirit', '9':'Sun Strike'}
-        
+        self.skill_dict_reverse = {'EMP':'0', 'Tornado':'1', 'Alacrity':'2', 'Ghost Walk':'3', 'Deafening Blast':'4', \
+            'Chaos Meteor':'5', 'Cold Snap':'6', 'Ice Wall':'7', 'Forge Spirit':'8', 'Sun Strike':'9', '':''}
+        self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', '':''}
+        self.skill_key_surf = ['', '']
+        self.skill_key_rect = ['', '']
+
         # font
         self.game_font = pygame.font.Font('assets/font/PoetsenOne-Regular.ttf', 25)
 
@@ -83,6 +88,29 @@ class Graphics:
         self.icon_2_rect = pygame.Rect((280, 630), icon_size)
         self.icon_3_rect = pygame.Rect((330, 630), icon_size)
 
+        # keys
+        q_text = 'Q'
+        self.q_surf = self.game_font.render(q_text, True, Q_COLOR)
+        q_topleft = self.Quas_slot_rect.topleft
+        self.q_rect = self.q_surf.get_rect(topleft = q_topleft)
+        w_text = 'W'
+        self.w_surf = self.game_font.render(w_text, True, W_COLOR)
+        w_topleft = self.Wex_slot_rect.topleft
+        self.w_rect = self.w_surf.get_rect(topleft = w_topleft)
+        e_text = 'E'
+        self.e_surf = self.game_font.render(e_text, True, E_COLOR)
+        e_topleft = self.Extort_slot_rect.topleft
+        self.e_rect = self.e_surf.get_rect(topleft = e_topleft)
+        r_text = 'R'
+        self.r_surf = self.game_font.render(r_text, True, WHITE)
+        r_topleft = self.Invoke_slot_rect.topleft
+        self.r_rect = self.r_surf.get_rect(topleft = r_topleft)
+
+        self.slot_key_topleft = []
+        self.slot_key_topleft.append(self.slot_1_rect.topleft)
+        self.slot_key_topleft.append(self.slot_2_rect.topleft)
+
+
         # position
         # self.rect = self.image.get_rect(midtop=(300, 700))
         # self.old_rect = self.rect.copy()
@@ -91,12 +119,6 @@ class Graphics:
         # self.pos = pygame.math.Vector2(self.rect.topleft)
         # self.direction = pygame.math.Vector2()
         # self.speed = 280
-
-    # def update(self, dt):
-    #     self.old_rect = self.rect.copy()
-
-    #     self.pos.x += self.direction.x * self.speed * dt
-    #     self.rect.x = round(self.pos.x)
 
     def obtain_info(self, slot, orb):
         self.slot = slot
@@ -140,29 +162,20 @@ class Graphics:
 
 
     def draw_key(self):
-        q_text = 'Q'
-        q_surf = self.game_font.render(q_text, True, Q_COLOR)
-        q_topleft = self.Quas_slot_rect.topleft
-        q_rect = q_surf.get_rect(topleft = q_topleft)
-        screen.blit(q_surf, q_rect)
+        # -------------------------------------------------------------------------------- #
+        screen.blit(self.q_surf, self.q_rect)
+        screen.blit(self.w_surf, self.w_rect)
+        screen.blit(self.e_surf, self.e_rect)
+        screen.blit(self.r_surf, self.r_rect)
 
-        w_text = 'W'
-        w_surf = self.game_font.render(w_text, True, W_COLOR)
-        w_topleft = self.Wex_slot_rect.topleft
-        w_rect = w_surf.get_rect(topleft = w_topleft)
-        screen.blit(w_surf, w_rect)
+        # -------------------------------------------------------------------------------- #
+        for i, skill in enumerate(self.slot):
+            # print(type(self.key_dict[self.skill_dict_reverse[str(skill)]]))
+            
+            self.skill_key_surf[i] = self.game_font.render(self.key_dict[self.skill_dict_reverse[str(skill)]], True, WHITE)
+            self.skill_key_rect[i] = self.skill_key_surf[i].get_rect(topleft=self.slot_key_topleft[i])
+            screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])
 
-        e_text = 'E'
-        e_surf = self.game_font.render(e_text, True, E_COLOR)
-        e_topleft = self.Extort_slot_rect.topleft
-        e_rect = e_surf.get_rect(topleft = e_topleft)
-        screen.blit(e_surf, e_rect)
-
-        r_text = 'R'
-        r_surf = self.game_font.render(r_text, True, WHITE)
-        r_topleft = self.Invoke_slot_rect.topleft
-        r_rect = r_surf.get_rect(topleft = r_topleft)
-        screen.blit(r_surf, r_rect)
 
     def update(self):
         self.draw_slots()

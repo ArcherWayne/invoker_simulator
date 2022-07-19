@@ -1,34 +1,44 @@
-import pygame, sys, time
+
+import pygame, sys, time, random
+from DropSkills import DropSkill
 from MainGame import MainGame
 from Graphics import Graphics
-import setting
+from setting import *
 from debug import debug
 
 # general setup --------------------------------------------------------------------------------------------- #
 ## pygame setup
 pygame.init()
-screen = pygame.display.set_mode(setting.window_size)
+screen = pygame.display.set_mode(window_size)
 
 pygame.display.set_caption('Invoker Simulator')
 pygame.display.set_icon(pygame.image.load('assets/graphics/dota2.png'))
 # background_surface = pygame.transform.scale(
 #     pygame.image.load('assets/background/ground.png').convert(), (setting.WIN_WIDTH, setting.WIN_HEIGTH))
 # background_rect = background_surface.get_rect(center=(setting.WIN_WIDTH / 2, setting.WIN_HEIGTH / 2))
-# clock = pygame.time.Clock()
 # font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
 ## varibles setup
 game_state_list = ['active', 'begin_menu', 'fail']
 game_state = game_state_list[0]
+skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
+            'Chaos Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
+
+DROP_EVENT = pygame.USEREVENT
+
+pygame.time.set_timer(DROP_EVENT, 3000)
+clock = pygame.time.Clock()
 
 # group setup ----------------------------------------------------------------------------------------------- #
-# all_sprites = pygame.sprite.Group()
-# collision_sprites = pygame.sprite.Group()
+drop_group = pygame.sprite.Group()
 
 # class setup ----------------------------------------------------------------------------------------------- #
 # class = Class()
 main_game = MainGame()
 graphics = Graphics()
+
+def check_collison():
+    pass
 
 # main ------------------------------------------------------------------------------------------------------ #
 def main():
@@ -38,6 +48,7 @@ def main():
         # delta time    ------------------------------------------------------------------------------------- #
         dt = time.time() - last_time
         last_time = time.time()
+        clock.tick(FPS)
 
         # event loop    ------------------------------------------------------------------------------------- #
         for event in pygame.event.get():
@@ -47,9 +58,7 @@ def main():
             if game_state == game_state_list[0]:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q: main_game.obtain_orb('Quas')
-                # if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w: main_game.obtain_orb('Wex')
-                # if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e: main_game.obtain_orb('Extort')
                     if event.key == pygame.K_r: main_game.invoke()
                     if event.key == pygame.K_c: main_game.use_skill(main_game.skill_dict['0'])
@@ -62,19 +71,28 @@ def main():
                     if event.key == pygame.K_g: main_game.use_skill(main_game.skill_dict['7'])
                     if event.key == pygame.K_f: main_game.use_skill(main_game.skill_dict['8'])
                     if event.key == pygame.K_t: main_game.use_skill(main_game.skill_dict['9'])
+            if event.type == DROP_EVENT and game_state == game_state_list[0]:
+                skill = random.choice(skill_list)
+                image = graphics.skill_image_skill_dict[main_game.skill_dict_reverse[skill]]
+                drop_group.add(DropSkill(drop_group, skill, image, 200))
+
 
         if game_state == game_state_list[0]:    # 游戏正在执行
-            screen.fill(setting.WHITE)
+            screen.fill(WHITE)
             # screen.blit(background_surface, background_rect)
-            # all_sprites.update()
-            # all_sprites.draw(screen)
             graphics.obtain_info(main_game.slot, main_game.obtained_orbs)
+
+            for skill in drop_group.sprites():  # Group.sprites() 加上括号才是返回groups中包含sprites的列表, 没有括号就是Group的方法
+                skill.get_dt(dt)
+
+            drop_group.update()
+            drop_group.draw(screen)
             graphics.update()
             main_game.update()
 
-        debug(graphics.obtained_orbs)
-        debug(main_game.slot, y = 30)
-        debug(main_game.key_list, y = 50)
+        # debug(graphics.obtained_orbs)
+        # debug(main_game.slot, y = 30)
+        debug(len(drop_group.sprites()))
         pygame.display.update()
 
 
