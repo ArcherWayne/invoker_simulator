@@ -46,16 +46,22 @@ def main():
                 sys.exit()
             if game_state == game_state_list[0]:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        main_game.obtain_orb('Quas')
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w:
-                        main_game.obtain_orb('Wex')
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_e:
-                        main_game.obtain_orb('Extort')
-                    if event.key == pygame.K_r:
-                        main_game.invoke()
+                    if event.key == pygame.K_q: main_game.obtain_orb('Quas')
+                # if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w: main_game.obtain_orb('Wex')
+                # if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_e: main_game.obtain_orb('Extort')
+                    if event.key == pygame.K_r: main_game.invoke()
+                    if event.key == pygame.K_c: main_game.use_skill(main_game.skill_dict['0'])
+                    if event.key == pygame.K_x: main_game.use_skill(main_game.skill_dict['1'])
+                    if event.key == pygame.K_z: main_game.use_skill(main_game.skill_dict['2'])
+                    if event.key == pygame.K_v: main_game.use_skill(main_game.skill_dict['3'])
+                    if event.key == pygame.K_b: main_game.use_skill(main_game.skill_dict['4'])
+                    if event.key == pygame.K_d: main_game.use_skill(main_game.skill_dict['5'])
+                    if event.key == pygame.K_y: main_game.use_skill(main_game.skill_dict['6'])
+                    if event.key == pygame.K_g: main_game.use_skill(main_game.skill_dict['7'])
+                    if event.key == pygame.K_f: main_game.use_skill(main_game.skill_dict['8'])
+                    if event.key == pygame.K_t: main_game.use_skill(main_game.skill_dict['9'])
 
         if game_state == game_state_list[0]:    # 游戏正在执行
             screen.fill(setting.WHITE)
@@ -64,9 +70,11 @@ def main():
             # all_sprites.draw(screen)
             graphics.obtain_info(main_game.slot, main_game.obtained_orbs)
             graphics.update()
+            main_game.update()
 
         debug(graphics.obtained_orbs)
         debug(main_game.slot, y = 30)
+        debug(main_game.key_list, y = 50)
         pygame.display.update()
 
 

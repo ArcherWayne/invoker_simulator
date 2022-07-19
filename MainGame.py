@@ -1,5 +1,6 @@
 # from tabnanny import check
 # from numpy import obj2sctype
+from re import L
 import pygame
 import setting
 from debug import debug
@@ -43,6 +44,7 @@ class MainGame:
         self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
 
         self.slot = ['', '']
+        self.key_list = []
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -144,7 +146,11 @@ class MainGame:
                 
             self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
 
-    def use_skill(skill):
+    def use_skill(self, skill):
+        if skill in self.slot:
+            print(skill)
+
+    def update(self):
         pass
 
 
