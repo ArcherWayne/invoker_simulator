@@ -3,7 +3,7 @@ import pygame
 from setting import * 
 
 class Graphics:
-    def __init__(self):
+    def __init__(self, group):
         # super(Graphics, self).__init__(groups)
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
@@ -13,6 +13,7 @@ class Graphics:
         self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', '':''}
         self.skill_key_surf = ['', '']
         self.skill_key_rect = ['', '']
+        self.drop_skill_group = group
 
         # font
         self.game_font = pygame.font.Font('assets/font/PoetsenOne-Regular.ttf', 25)
@@ -166,6 +167,9 @@ class Graphics:
             self.skill_key_surf[i] = self.game_font.render(self.key_dict[self.skill_dict_reverse[str(skill)]], True, WHITE)
             self.skill_key_rect[i] = self.skill_key_surf[i].get_rect(topleft=self.slot_key_topleft[i])
             screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])
+
+        for spirites in self.drop_skill_group:
+            
 
 
     def update(self):

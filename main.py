@@ -23,10 +23,11 @@ game_state_list = ['active', 'begin_menu', 'fail']
 game_state = game_state_list[0]
 skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
             'Chaos Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
+start_time = time.time()
 
 DROP_EVENT = pygame.USEREVENT
-
-pygame.time.set_timer(DROP_EVENT, 3000)
+event_speed = 3000
+pygame.time.set_timer(DROP_EVENT, event_speed)
 clock = pygame.time.Clock()
 
 # group setup ----------------------------------------------------------------------------------------------- #
@@ -35,7 +36,11 @@ drop_group = pygame.sprite.Group()
 # class setup ----------------------------------------------------------------------------------------------- #
 # class = Class()
 main_game = MainGame(drop_group)
-graphics = Graphics()
+graphics = Graphics(drop_group)
+
+# function -------------------------------------------------------------------------------------------------- #
+def update_timer():
+    pass
 
 # main ------------------------------------------------------------------------------------------------------ #
 def main():
@@ -44,6 +49,7 @@ def main():
 
         # delta time    ------------------------------------------------------------------------------------- #
         dt = time.time() - last_time
+        duration_time = time.time()-start_time
         last_time = time.time()
         clock.tick(FPS)
 
@@ -87,7 +93,7 @@ def main():
             main_game.update()
             graphics.update()
 
-        debug(len(drop_group.sprites()))
+        debug(duration_time)
         pygame.display.update()
 
 
