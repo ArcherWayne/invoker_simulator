@@ -7,7 +7,7 @@ from debug import debug
 
 
 class MainGame:
-    def __init__(self) -> None:
+    def __init__(self, group) -> None:
         #  Quas, Wex and Extort, 冰, 雷, 火
         # self.orbs_list = ['Quas', 'Wex', '']
         # self.skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
@@ -19,6 +19,8 @@ class MainGame:
         self.skill_dict_reverse = {'EMP':'0', 'Tornado':'1', 'Alacrity':'2', 'Ghost Walk':'3', 'Deafening Blast':'4', \
             'Chaos Meteor':'5', 'Cold Snap':'6', 'Ice Wall':'7', 'Forge Spirit':'8', 'Sun Strike':'9'}
         self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', }
+        self.drop_skill_group = group
+
         # 0 EMP www C
         # 1 Tornado qww X
         # 2 Alacrity wwe Z
@@ -48,13 +50,13 @@ class MainGame:
         self.slot = ['', '']
         self.key_list = []
 
-        # collsion_rect
-        # self.red_rect = pygame.Rect((20, 500), (560, 120))
-        # pygame.Surface((560, 120))
+        # red_rect
         self.red_surf = pygame.Surface((560, 120), pygame.SRCALPHA, 32).convert_alpha()
         self.red_surf.fill(RED)
-        # self.red_surf.set_colorkey(RED, 50)
         self.red_rect = self.red_surf.get_rect(topleft = (20, 500))
+
+        # game mechanics
+        self.score = 0
 
 
     def obtain_orb(self, orb_type):
@@ -74,6 +76,11 @@ class MainGame:
         else:
             return False
 
+    def switch_slot(self):
+        temp = self.slot[0]
+        self.slot[0] = self.slot[1]
+        self.slot[1] = temp
+
     def invoke(self):
         if len(self.obtained_orbs) != 3:
             pass
@@ -89,19 +96,19 @@ class MainGame:
 
             if self.invoke_dict['Quas'] == 3:
                 if self.check_if_in_slot(self.skill_dict['6']):
-                    pass
+                    if self.skill_dict['6'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['6']
             if self.invoke_dict['Quas'] == 2 and self.invoke_dict['Wex'] == 1:
                 if self.check_if_in_slot(self.skill_dict['3']):
-                    pass
+                    if self.skill_dict['3'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['3']
             if self.invoke_dict['Quas'] == 2 and self.invoke_dict['Extort'] == 1:
                 if self.check_if_in_slot(self.skill_dict['7']):
-                    pass
+                    if self.skill_dict['7'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['7']
@@ -109,19 +116,19 @@ class MainGame:
 
             if self.invoke_dict['Wex'] == 3:
                 if self.check_if_in_slot(self.skill_dict['0']):
-                    pass
+                    if self.skill_dict['0'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['0']
             if self.invoke_dict['Wex'] == 2 and self.invoke_dict['Quas'] == 1:
                 if self.check_if_in_slot(self.skill_dict['1']):
-                    pass
+                    if self.skill_dict['1'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['1']
             if self.invoke_dict['Wex'] == 2 and self.invoke_dict['Extort'] == 1:
                 if self.check_if_in_slot(self.skill_dict['2']):
-                    pass
+                    if self.skill_dict['2'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['2']
@@ -129,19 +136,19 @@ class MainGame:
 
             if self.invoke_dict['Extort'] == 3:
                 if self.check_if_in_slot(self.skill_dict['9']):
-                    pass
+                    if self.skill_dict['9'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['9']
             if self.invoke_dict['Extort'] == 2 and self.invoke_dict['Quas'] == 1:
                 if self.check_if_in_slot(self.skill_dict['8']):
-                    pass
+                    if self.skill_dict['8'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['8']
             if self.invoke_dict['Extort'] == 2 and self.invoke_dict['Wex'] == 1:
                 if self.check_if_in_slot(self.skill_dict['5']):
-                    pass
+                    if self.skill_dict['5'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['5']
@@ -149,7 +156,7 @@ class MainGame:
 
             if self.invoke_dict['Quas'] == 1 and self.invoke_dict['Wex'] == 1 and self.invoke_dict['Extort'] == 1:
                 if self.check_if_in_slot(self.skill_dict['4']):
-                    pass
+                    if self.skill_dict['4'] == self.slot[1]: self.switch_slot()
                 else:
                     self.slot[1] = self.slot[0]
                     self.slot[0] = self.skill_dict['4']
@@ -159,11 +166,18 @@ class MainGame:
 
     def use_skill(self, skill):
         if skill in self.slot:
-            print(skill)
+            for spirites in self.drop_skill_group:
+                if skill == spirites.skill and spirites.avaibility:
+                    spirites.kill()
+
+
+    def check_collison(self):
+        for spirites in self.drop_skill_group:
+            if self.red_rect.colliderect(spirites):
+                spirites.avaibility = 1
+            else:
+                spirites.avaibility = 0
 
     def update(self):
         screen.blit(self.red_surf, self.red_rect)
-
-
-
-
+        self.check_collison()

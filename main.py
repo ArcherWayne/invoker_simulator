@@ -3,7 +3,7 @@ import pygame, sys, time, random
 from DropSkills import DropSkill
 from MainGame import MainGame
 from Graphics import Graphics
-from setting import *
+from setting import * 
 from debug import debug
 
 # general setup --------------------------------------------------------------------------------------------- #
@@ -34,11 +34,8 @@ drop_group = pygame.sprite.Group()
 
 # class setup ----------------------------------------------------------------------------------------------- #
 # class = Class()
-main_game = MainGame()
+main_game = MainGame(drop_group)
 graphics = Graphics()
-
-def check_collison():
-    pass
 
 # main ------------------------------------------------------------------------------------------------------ #
 def main():
@@ -87,11 +84,9 @@ def main():
 
             drop_group.update()
             drop_group.draw(screen)
-            graphics.update()
             main_game.update()
+            graphics.update()
 
-        # debug(graphics.obtained_orbs)
-        # debug(main_game.slot, y = 30)
         debug(len(drop_group.sprites()))
         pygame.display.update()
 

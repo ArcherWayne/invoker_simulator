@@ -111,18 +111,10 @@ class Graphics:
         self.slot_key_topleft.append(self.slot_2_rect.topleft)
 
 
-        # position
-        # self.rect = self.image.get_rect(midtop=(300, 700))
-        # self.old_rect = self.rect.copy()
-
-        # # movement
-        # self.pos = pygame.math.Vector2(self.rect.topleft)
-        # self.direction = pygame.math.Vector2()
-        # self.speed = 280
-
     def obtain_info(self, slot, orb):
         self.slot = slot
         self.obtained_orbs = orb
+
 
     def draw_slots(self):
         screen.blit(self.Quas_image_slot, self.Quas_slot_rect)
@@ -136,6 +128,7 @@ class Graphics:
         for key in self.skill_dict:
             if self.slot[1] == self.skill_dict[key]:
                 screen.blit(self.skill_image_slot_dict[key], self.slot_2_rect)
+
 
     def draw_icons(self):
         match self.obtained_orbs[0]:
@@ -170,8 +163,6 @@ class Graphics:
 
         # -------------------------------------------------------------------------------- #
         for i, skill in enumerate(self.slot):
-            # print(type(self.key_dict[self.skill_dict_reverse[str(skill)]]))
-            
             self.skill_key_surf[i] = self.game_font.render(self.key_dict[self.skill_dict_reverse[str(skill)]], True, WHITE)
             self.skill_key_rect[i] = self.skill_key_surf[i].get_rect(topleft=self.slot_key_topleft[i])
             screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])

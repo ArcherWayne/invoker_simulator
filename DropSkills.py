@@ -8,6 +8,7 @@ class DropSkill(pygame.sprite.Sprite):
         self.skill = skill
         self.image = image
         self.drop_speed = drop_speed
+        self.avaibility = 0
 
         # ----------------------------------------------------------------------------------- #
         start_topleft = [(30, -200), (170, -200), (310, -200), (450, -200)]
@@ -23,9 +24,3 @@ class DropSkill(pygame.sprite.Sprite):
     def update(self):
         self.die()
         self.rect.y += self.drop_speed * self.dt
-
-    # def update(self, dt):
-    #     self.old_rect = self.rect.copy()
-
-    #     self.pos.x += self.direction.x * self.speed * dt
-    #     self.rect.x = round(self.pos.x)
