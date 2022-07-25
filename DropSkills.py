@@ -1,3 +1,4 @@
+from re import M
 import pygame, random
 from setting import *
 from debug import debug
@@ -18,7 +19,7 @@ class DropSkill(pygame.sprite.Sprite):
         self.dt = dt
 
     def die(self):
-        if self.rect.y > 1000:
+        if self.rect.y > 650:
             self.kill()
 
     def update(self):

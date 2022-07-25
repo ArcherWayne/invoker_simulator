@@ -1,7 +1,4 @@
-# from tabnanny import check
-# from numpy import obj2sctype
-from re import L
-import pygame
+import pygame, time
 from setting import *
 from debug import debug
 
@@ -22,6 +19,7 @@ class MainGame:
         self.comb_dict = {'EMP':'WWW', 'Tornado':'QWW', 'Alacrity':'WWE', 'Ghost Walk':'QQW', 'Deafening Blast':'QWE', \
             'Chaos Meteor':'WEE', 'Cold Snap':'QQQ', 'Ice Wall':'QQE', 'Forge Spirit':'QEE', 'Sun Strike':'EEE'}
         self.drop_skill_group = group
+
 
         # 0 EMP www C
         # 1 Tornado qww X
@@ -59,7 +57,8 @@ class MainGame:
 
         # game mechanics
         self.score = 0
-
+        self.start_time = time.time()
+        self.count = 0
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -171,7 +170,7 @@ class MainGame:
             for spirites in self.drop_skill_group:
                 if skill == spirites.skill and spirites.avaibility:
                     spirites.kill()
-
+                    self.count += 1
 
     def check_collison(self):
         for spirites in self.drop_skill_group:
@@ -180,6 +179,18 @@ class MainGame:
             else:
                 spirites.avaibility = 0
 
+    def count_break(self):
+        self.count = 0
+
+    def score_count(self):
+        pass
+
     def update(self):
+        for spirites in self.drop_skill_group:
+            if spirites.rect.y >= 630:
+                self.count_break()
+
+        self.duration_time = time.time()-self.start_time
+
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()

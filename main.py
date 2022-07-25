@@ -23,7 +23,7 @@ game_state_list = ['active', 'begin_menu', 'fail']
 game_state = game_state_list[0]
 skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
             'Chaos Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
-start_time = time.time()
+
 
 DROP_EVENT = pygame.USEREVENT
 event_speed = 3000
@@ -49,7 +49,6 @@ def main():
 
         # delta time    ------------------------------------------------------------------------------------- #
         dt = time.time() - last_time
-        duration_time = time.time()-start_time
         last_time = time.time()
         clock.tick(FPS)
 
@@ -91,9 +90,10 @@ def main():
             drop_group.update()
             drop_group.draw(screen)
             main_game.update()
-            graphics.update()
+            graphics.update(main_game.count)
 
-        debug(duration_time)
+        debug(main_game.duration_time)
+        debug(pygame.mouse.get_pos(), y = 30)
         pygame.display.update()
 
 

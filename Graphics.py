@@ -18,7 +18,7 @@ class Graphics:
         self.drop_skill_group = group
 
         # font
-        self.game_font = pygame.font.Font('assets/font/PoetsenOne-Regular.ttf', 25)
+        self.game_font = pygame.font.Font('assets/font/HuaGuangGangTieZhiHei-KeBianTi-2.ttf', 25)
 
         # self.obtained_orbs = ['Quas', 'Quas', 'Quas']
         # self.obtained_orbs = ['', '', '']
@@ -171,10 +171,20 @@ class Graphics:
             screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])
 
         for spirites in self.drop_skill_group:
-            pass
+            drop_skill_name = spirites.skill
+            comb = self.comb_dict[drop_skill_name]
+            drop_skill_comb_surf = self.game_font.render(comb, True, WHITE)
+            drop_skill_comb_rect = drop_skill_comb_surf.get_rect(topleft=spirites.rect.topleft)
+            screen.blit(drop_skill_comb_surf, drop_skill_comb_rect)
+
+    def draw_count(self, count):
+        count_surf = self.game_font.render('连击:'+str(count), True, RED)
+        count_rect = count_surf.get_rect(topleft = (420, 630))
+        screen.blit(count_surf, count_rect)
 
 
-    def update(self):
+    def update(self, count):
+        self.draw_count(count)
         self.draw_slots()
         self.draw_icons()
         self.draw_key()
