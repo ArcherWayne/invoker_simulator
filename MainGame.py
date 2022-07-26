@@ -58,6 +58,7 @@ class MainGame:
         # game mechanics
         self.score = 0
         self.start_time = time.time()
+        self.skill_used_time = self.start_time
         self.count = 0
 
     def obtain_orb(self, orb_type):
@@ -171,6 +172,25 @@ class MainGame:
                 if skill == spirites.skill and spirites.avaibility:
                     spirites.kill()
                     self.count += 1
+                    self.skill_used_interval = time.time() - self.skill_used_time
+                    self.skill_used_time = time.time()
+                    print(self.skill_used_interval)
+
+                    self.add_score()
+    
+    def cheat_key(self):
+        for spirites in self.drop_skill_group:
+            if spirites.avaibility:
+                spirites.kill()
+                self.count += 1
+                self.skill_used_interval = time.time() - self.skill_used_time
+                self.skill_used_time = time.time()
+                print(self.skill_used_interval)
+
+                self.add_score()
+
+    def add_score(self):
+        self.score += int((1+0.1*self.count)*(0.5*self.duration_time + (2.5 - 0.5*self.skill_used_interval)))
 
     def check_collison(self):
         for spirites in self.drop_skill_group:
@@ -181,9 +201,6 @@ class MainGame:
 
     def count_break(self):
         self.count = 0
-
-    def score_count(self):
-        pass
 
     def update(self):
         for spirites in self.drop_skill_group:

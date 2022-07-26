@@ -73,6 +73,7 @@ def main():
                     if event.key == pygame.K_g: main_game.use_skill(main_game.skill_dict['7'])
                     if event.key == pygame.K_f: main_game.use_skill(main_game.skill_dict['8'])
                     if event.key == pygame.K_t: main_game.use_skill(main_game.skill_dict['9'])
+                    if event.key == pygame.K_0: main_game.cheat_key()
             if event.type == DROP_EVENT and game_state == game_state_list[0]:
                 skill = random.choice(skill_list)
                 image = graphics.skill_image_skill_dict[main_game.skill_dict_reverse[skill]]
@@ -90,9 +91,10 @@ def main():
             drop_group.update()
             drop_group.draw(screen)
             main_game.update()
-            graphics.update(main_game.count)
+            graphics.update(main_game.count, main_game.score)
 
-        debug(main_game.duration_time)
+        # debug(main_game.duration_time)
+        debug(main_game.score)
         debug(pygame.mouse.get_pos(), y = 30)
         pygame.display.update()
 

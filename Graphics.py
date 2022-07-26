@@ -182,9 +182,14 @@ class Graphics:
         count_rect = count_surf.get_rect(topleft = (420, 630))
         screen.blit(count_surf, count_rect)
 
+    def draw_score(self, score):
+        score_surf = self.game_font.render('分数:'+str(score), True, RED)
+        score_rect = score_surf.get_rect(topleft = (30, 630))
+        screen.blit(score_surf, score_rect)
 
-    def update(self, count):
+    def update(self, count, score):
         self.draw_count(count)
+        self.draw_score(score)
         self.draw_slots()
         self.draw_icons()
         self.draw_key()
