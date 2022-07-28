@@ -60,6 +60,7 @@ class MainGame:
         self.start_time = time.time()
         self.skill_used_time = self.start_time
         self.count = 0
+        self.drop_speed = 200
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -208,6 +209,9 @@ class MainGame:
                 self.count_break()
 
         self.duration_time = time.time()-self.start_time
+
+        if self.drop_speed < 800:
+            self.drop_speed = 200+ int(3*self.duration_time)
 
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()

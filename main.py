@@ -39,8 +39,9 @@ main_game = MainGame(drop_group)
 graphics = Graphics(drop_group)
 
 # function -------------------------------------------------------------------------------------------------- #
-def update_timer():
-    pass
+# def update_timer():
+#     event_speed = 
+#     pygame.time.set_timer(DROP_EVENT, event_speed)
 
 # main ------------------------------------------------------------------------------------------------------ #
 def main():
@@ -77,7 +78,7 @@ def main():
             if event.type == DROP_EVENT and game_state == game_state_list[0]:
                 skill = random.choice(skill_list)
                 image = graphics.skill_image_skill_dict[main_game.skill_dict_reverse[skill]]
-                drop_group.add(DropSkill(drop_group, skill, image, 200))
+                drop_group.add(DropSkill(drop_group, skill, image, main_game.drop_speed))
 
 
         if game_state == game_state_list[0]:    # 游戏正在执行
@@ -94,8 +95,9 @@ def main():
             graphics.update(main_game.count, main_game.score)
 
         # debug(main_game.duration_time)
-        debug(main_game.score)
-        debug(pygame.mouse.get_pos(), y = 30)
+        # debug(main_game.score)
+        # debug(pygame.mouse.get_pos(), y = 30)
+        debug(main_game.drop_speed)
         pygame.display.update()
 
 
