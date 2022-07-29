@@ -8,6 +8,7 @@ screen = pygame.display.set_mode(window_size)
 slot_size = (80, 80)
 skill_size = (120, 120)
 icon_size = (40, 40)
+dead_distance = 650
 
 FPS = 60
 

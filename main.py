@@ -1,4 +1,5 @@
 
+from turtle import update
 import pygame, sys, time, random
 from DropSkills import DropSkill
 from MainGame import MainGame
@@ -19,15 +20,14 @@ pygame.display.set_icon(pygame.image.load('assets/graphics/dota2.png'))
 # font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
 ## varibles setup
-game_state_list = ['active', 'begin_menu', 'fail']
-game_state = game_state_list[0]
 skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
             'Chaos Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
-
 
 DROP_EVENT = pygame.USEREVENT
 event_speed = 3000
 pygame.time.set_timer(DROP_EVENT, event_speed)
+SPEED_UPDATE_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(SPEED_UPDATE_EVENT, 5000)
 clock = pygame.time.Clock()
 
 # group setup ----------------------------------------------------------------------------------------------- #
@@ -39,12 +39,15 @@ main_game = MainGame(drop_group)
 graphics = Graphics(drop_group)
 
 # function -------------------------------------------------------------------------------------------------- #
-# def update_timer():
-#     event_speed = 
-#     pygame.time.set_timer(DROP_EVENT, event_speed)
+def update_timer(event_speed):
+    if event_speed > 1000:
+        event_speed = 4000 - 1000*((2*(main_game.duration_time/60)+3)/3)
+    else: 
+        event_speed = 1000
+    return event_speed
 
 # main ------------------------------------------------------------------------------------------------------ #
-def main():
+def main(event_speed):
     last_time = time.time()
     while True:
 
@@ -58,7 +61,7 @@ def main():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
                 pygame.quit()
                 sys.exit()
-            if game_state == game_state_list[0]:
+            if main_game.game_state == main_game.game_state_list[0]:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q: main_game.obtain_orb('Quas')
                     if event.key == pygame.K_w: main_game.obtain_orb('Wex')
@@ -75,13 +78,16 @@ def main():
                     if event.key == pygame.K_f: main_game.use_skill(main_game.skill_dict['8'])
                     if event.key == pygame.K_t: main_game.use_skill(main_game.skill_dict['9'])
                     if event.key == pygame.K_0: main_game.cheat_key()
-            if event.type == DROP_EVENT and game_state == game_state_list[0]:
+            if event.type == SPEED_UPDATE_EVENT and main_game.game_state == main_game.game_state_list[0]:
+                pygame.time.set_timer(DROP_EVENT, int(event_speed))
+
+            if event.type == DROP_EVENT and main_game.game_state == main_game.game_state_list[0]:
                 skill = random.choice(skill_list)
                 image = graphics.skill_image_skill_dict[main_game.skill_dict_reverse[skill]]
                 drop_group.add(DropSkill(drop_group, skill, image, main_game.drop_speed))
 
 
-        if game_state == game_state_list[0]:    # 游戏正在执行
+        if main_game.game_state == main_game.game_state_list[0]:    # 游戏正在执行
             screen.fill(WHITE)
             # screen.blit(background_surface, background_rect)
             graphics.obtain_info(main_game.slot, main_game.obtained_orbs)
@@ -94,12 +100,13 @@ def main():
             main_game.update()
             graphics.update(main_game.count, main_game.score)
 
-        # debug(main_game.duration_time)
-        # debug(main_game.score)
-        # debug(pygame.mouse.get_pos(), y = 30)
-        debug(main_game.drop_speed)
+            event_speed = update_timer(event_speed)
+
+        if main_game.game_state == main_game.game_state_list[2]:    # 游戏失败
+            screen.fill(BLACK)
+
         pygame.display.update()
 
 
 if __name__ == "__main__":
-    main()
+    main(event_speed)

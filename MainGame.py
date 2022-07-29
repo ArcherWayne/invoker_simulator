@@ -61,6 +61,9 @@ class MainGame:
         self.skill_used_time = self.start_time
         self.count = 0
         self.drop_speed = 200
+        self.heart = 5
+        self.game_state_list = ['active', 'menu', 'fail']
+        self.game_state = self.game_state_list[0]
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -203,10 +206,15 @@ class MainGame:
     def count_break(self):
         self.count = 0
 
+    def game_over(self):
+        if self.heart <= 0:
+            self.game_state = self.game_state_list[2]
+
     def update(self):
         for spirites in self.drop_skill_group:
-            if spirites.rect.y >= 630:
+            if spirites.rect.y >= dead_distance:
                 self.count_break()
+                self.heart -= 1
 
         self.duration_time = time.time()-self.start_time
 
@@ -215,3 +223,4 @@ class MainGame:
 
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()
+        self.game_over()

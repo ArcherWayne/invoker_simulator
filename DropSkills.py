@@ -19,7 +19,7 @@ class DropSkill(pygame.sprite.Sprite):
         self.dt = dt
 
     def die(self):
-        if self.rect.y > 650:
+        if self.rect.y > dead_distance:
             self.kill()
 
     def update(self):
