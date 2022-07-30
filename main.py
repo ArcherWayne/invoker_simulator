@@ -86,6 +86,11 @@ def main(event_speed):
                 image = graphics.skill_image_skill_dict[main_game.skill_dict_reverse[skill]]
                 drop_group.add(DropSkill(drop_group, skill, image, main_game.drop_speed))
 
+            if event.type == pygame.KEYDOWN and main_game.game_state == main_game.game_state_list[2]:
+                if event.key == pygame.K_SPACE: 
+                    main_game.restart()
+                    event_speed = 3000
+
 
         if main_game.game_state == main_game.game_state_list[0]:    # 游戏正在执行
             screen.fill(WHITE)
@@ -97,13 +102,24 @@ def main(event_speed):
 
             drop_group.update()
             drop_group.draw(screen)
-            main_game.update()
-            graphics.update(main_game.count, main_game.score)
+            main_game.update_active()
+            graphics.update_active(main_game.count, main_game.score, main_game.heart)
 
             event_speed = update_timer(event_speed)
 
         if main_game.game_state == main_game.game_state_list[2]:    # 游戏失败
             screen.fill(BLACK)
+            main_game.update_fail()
+            graphics.update_fail(main_game.score)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
+                    pygame.quit()
+                    sys.exit()
+                
+
+        # if main_game.game_state == main_game.game_state_list[1]:    # 菜单界面
+        #     screen.fill(WHITE)
 
         pygame.display.update()
 

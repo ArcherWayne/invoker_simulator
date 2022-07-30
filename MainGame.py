@@ -18,7 +18,7 @@ class MainGame:
         self.key_dict = {'0':'C', '1':'X', '2':'Z', '3':'V', '4':'B', '5':'D', '6':'Y', '7':'G', '8':'F', '9':'T', }
         self.comb_dict = {'EMP':'WWW', 'Tornado':'QWW', 'Alacrity':'WWE', 'Ghost Walk':'QQW', 'Deafening Blast':'QWE', \
             'Chaos Meteor':'WEE', 'Cold Snap':'QQQ', 'Ice Wall':'QQE', 'Forge Spirit':'QEE', 'Sun Strike':'EEE'}
-        self.drop_skill_group = group
+        self.drop_group = group
 
 
         # 0 EMP www C
@@ -64,6 +64,8 @@ class MainGame:
         self.heart = 5
         self.game_state_list = ['active', 'menu', 'fail']
         self.game_state = self.game_state_list[0]
+
+    # game = active ------------------------------------------------------------------------ # 
 
     def obtain_orb(self, orb_type):
         self.update_obtained_orbs(orb_type)
@@ -172,7 +174,7 @@ class MainGame:
 
     def use_skill(self, skill):
         if skill in self.slot:
-            for spirites in self.drop_skill_group:
+            for spirites in self.drop_group:
                 if skill == spirites.skill and spirites.avaibility:
                     spirites.kill()
                     self.count += 1
@@ -183,7 +185,7 @@ class MainGame:
                     self.add_score()
     
     def cheat_key(self):
-        for spirites in self.drop_skill_group:
+        for spirites in self.drop_group:
             if spirites.avaibility:
                 spirites.kill()
                 self.count += 1
@@ -197,7 +199,7 @@ class MainGame:
         self.score += int((1+0.1*self.count)*(0.5*self.duration_time + (2.5 - 0.5*self.skill_used_interval)))
 
     def check_collison(self):
-        for spirites in self.drop_skill_group:
+        for spirites in self.drop_group:
             if self.red_rect.colliderect(spirites):
                 spirites.avaibility = 1
             else:
@@ -210,17 +212,39 @@ class MainGame:
         if self.heart <= 0:
             self.game_state = self.game_state_list[2]
 
-    def update(self):
-        for spirites in self.drop_skill_group:
-            if spirites.rect.y >= dead_distance:
+    def update_active(self):
+        for spirites in self.drop_group:
+            if spirites.rect.y > dead_distance:
                 self.count_break()
                 self.heart -= 1
 
         self.duration_time = time.time()-self.start_time
 
         if self.drop_speed < 800:
-            self.drop_speed = 200+ int(3*self.duration_time)
+            self.drop_speed = 200 + int(3*self.duration_time)
 
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()
         self.game_over()
+
+    # game = fail ---------------------------------------------------------------------------- #
+    def restart(self):
+        self.drop_group.empty()
+
+        self.score = 0
+        self.start_time = time.time()
+        self.skill_used_time = self.start_time
+        self.count = 0
+        self.drop_speed = 200
+        self.heart = 5
+
+        self.obtained_orbs = ['', '', '']
+        self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
+        self.slot = ['', '']
+
+        self.game_state = self.game_state_list[0]
+
+
+    def update_fail(self):
+        pass
+

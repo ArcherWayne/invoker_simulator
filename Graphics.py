@@ -113,6 +113,16 @@ class Graphics:
         self.slot_key_topleft.append(self.slot_1_rect.topleft)
         self.slot_key_topleft.append(self.slot_2_rect.topleft)
 
+        # heart
+        self.heart_image = pygame.transform.scale(pygame.image.load('assets/graphics/heart.png').convert_alpha(), (40, 40))
+        self.heart_rect_1 = pygame.Rect((5, 10), (40, 40))
+        self.heart_rect_2 = pygame.Rect((50, 10), (40, 40))
+        self.heart_rect_3 = pygame.Rect((95, 10), (40, 40))
+        self.heart_rect_4 = pygame.Rect((140, 10), (40, 40))
+        self.heart_rect_5 = pygame.Rect((185, 10), (40, 40))
+        self.heart_rect_list = [self.heart_rect_1, self.heart_rect_2, self.heart_rect_3, self.heart_rect_4, self.heart_rect_5]
+
+
 
     def obtain_info(self, slot, orb):
         self.slot = slot
@@ -187,10 +197,38 @@ class Graphics:
         score_rect = score_surf.get_rect(topleft = (30, 630))
         screen.blit(score_surf, score_rect)
 
-    def update(self, count, score):
+    def draw_heart(self, heart):
+        for i in range(heart): # 0 1 2 3 4
+            screen.blit(self.heart_image, self.heart_rect_list[i])
+
+    def update_active(self, count, score, heart):
         self.draw_count(count)
         self.draw_score(score)
+        self.draw_heart(heart)
         self.draw_slots()
         self.draw_icons()
         self.draw_key()
 
+    def update_fail(self, score):
+        self.end_info(score)
+
+    def end_info(self, score):
+        info_1 = '嘿几把, 民工三连都不会!'
+        info_2 = '你的分:'
+        info_3 = str(score)
+        info_4 = '按空格重启'
+
+        info_1_surf = pygame.transform.scale(self.game_font.render(info_1, False, WHITE), (430, 60))
+        info_2_surf = pygame.transform.scale(self.game_font.render(info_2, False, WHITE), (140, 60))
+        info_3_surf = self.game_font.render(info_3, False, WHITE)
+        info_4_surf = pygame.transform.scale(self.game_font.render(info_4, False, WHITE), (200, 60))
+
+        info_1_rect = info_1_surf.get_rect(topleft = (90, 90))
+        info_2_rect = info_2_surf.get_rect(topleft = (230, 180))
+        info_3_rect = info_3_surf.get_rect(midtop = (300, 250))
+        info_4_rect = info_4_surf.get_rect(topleft = (200, 470))
+
+        screen.blit(info_1_surf, info_1_rect)
+        screen.blit(info_2_surf, info_2_rect)
+        screen.blit(info_3_surf, info_3_rect)
+        screen.blit(info_4_surf, info_4_rect)
