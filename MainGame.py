@@ -1,6 +1,7 @@
 import pygame, time
 from setting import *
 from debug import debug
+from SoundEffect import SE
 
 
 class MainGame:
@@ -9,6 +10,10 @@ class MainGame:
         # self.orbs_list = ['Quas', 'Wex', '']
         # self.skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
         #     'Chaos  Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
+
+        self.se = SE()
+        pygame.mixer.music.stop() 
+        self.se.play_music('battle_02')
 
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
@@ -21,15 +26,15 @@ class MainGame:
         self.drop_group = group
 
 
-        # 0 EMP www C
+        # 0 EMP www C   
         # 1 Tornado qww X
-        # 2 Alacrity wwe Z
-        # 3 Ghost Walk qqw V
-        # 4 Deafening Blast qwe B
-        # 5 Chaos Meteor wee D
-        # 6 Cold Snap qqq Y
-        # 7 Ice Wall qqe G
-        # 8 Forge Spirirt qee F
+        # 2 Alacrity wwe Z  
+        # 3 Ghost Walk qqw V    
+        # 4 Deafening Blast qwe B   
+        # 5 Chaos Meteor wee D  
+        # 6 Cold Snap qqq Y 
+        # 7 Ice Wall qqe G  
+        # 8 Forge Spirirt qee F 
         # 9 Sun Strike eee T
 
         # qqq=急速冷却 Y 受到冰元素影响
@@ -93,7 +98,7 @@ class MainGame:
         if len(self.obtained_orbs) != 3:
             pass
         else:
-
+            self.se.play('Invoke')
             for orb in self.obtained_orbs:
                 if orb == self.orbs_dict['0']:
                     self.invoke_dict['Quas'] += 1 
@@ -180,7 +185,8 @@ class MainGame:
                     self.count += 1
                     self.skill_used_interval = time.time() - self.skill_used_time
                     self.skill_used_time = time.time()
-                    print(self.skill_used_interval)
+                    # print(self.skill_used_interval)
+                    self.se.play(skill)
 
                     self.add_score()
     
@@ -211,6 +217,8 @@ class MainGame:
     def game_over(self):
         if self.heart <= 0:
             self.game_state = self.game_state_list[2]
+            pygame.mixer.music.stop()
+            self.se.play_music('battle_02_end')
 
     def update_active(self):
         for spirites in self.drop_group:
@@ -243,6 +251,9 @@ class MainGame:
         self.slot = ['', '']
 
         self.game_state = self.game_state_list[0]
+
+        pygame.mixer.music.stop() 
+        self.se.play_music('battle_02')
 
 
     def update_fail(self):
