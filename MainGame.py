@@ -12,8 +12,8 @@ class MainGame:
         #     'Chaos  Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
 
         self.se = SE()
-        pygame.mixer.music.stop() 
-        self.se.play_music('battle_02')
+        # self.se.play_music('stop')
+        self.se.play_music('start')
 
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
@@ -217,8 +217,8 @@ class MainGame:
     def game_over(self):
         if self.heart <= 0:
             self.game_state = self.game_state_list[2]
-            pygame.mixer.music.stop()
-            self.se.play_music('battle_02_end')
+            self.se.play_music('stop')
+            self.se.play_music('end')
 
     def update_active(self):
         for spirites in self.drop_group:
@@ -252,8 +252,8 @@ class MainGame:
 
         self.game_state = self.game_state_list[0]
 
-        pygame.mixer.music.stop() 
-        self.se.play_music('battle_02')
+        self.se.play_music('stop')
+        self.se.play_music('start')
 
 
     def update_fail(self):

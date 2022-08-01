@@ -142,6 +142,8 @@ class Graphics:
             if self.slot[1] == self.skill_dict[key]:
                 screen.blit(self.skill_image_slot_dict[key], self.slot_2_rect)
 
+    def blit_red_rects(self):
+        pass
 
     def draw_icons(self):
         match self.obtained_orbs[0]:

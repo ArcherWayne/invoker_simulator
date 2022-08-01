@@ -10,6 +10,7 @@ from debug import debug
 # general setup --------------------------------------------------------------------------------------------- #
 ## pygame setup
 pygame.init()
+pygame.mixer.init() 
 screen = pygame.display.set_mode(window_size)
 
 pygame.display.set_caption('Invoker Simulator')
