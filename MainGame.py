@@ -57,7 +57,7 @@ class MainGame:
 
         # red_rect
         self.red_surf = pygame.Surface((560, 120), pygame.SRCALPHA, 32).convert_alpha()
-        self.red_surf.fill(RED)
+        self.red_surf.fill(RED_transparent)
         self.red_rect = self.red_surf.get_rect(topleft = (20, 500))
 
         # game mechanics

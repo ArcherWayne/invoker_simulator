@@ -3,6 +3,7 @@ import pygame
 class SE:
     def __init__(self):
 
+        self.sound_switch = 0
         # 0 EMP www C   
         # 1 Tornado qww X
         # 2 Alacrity wwe Z  
@@ -49,11 +50,12 @@ class SE:
             case 'battle_02_end': pygame.mixer.Sound.play
 
     def play_music(self, stage):
-        if stage == 'start':
-            pygame.mixer.music.load("assets\sound\music/Music_default_battle_02.mp3")
-            pygame.mixer.music.play(-1)
-        if stage == 'end':
-            pygame.mixer.music.load("assets\sound\music/Music_default_battle_02_end.mp3")
-            pygame.mixer.music.play()
-        if stage == 'stop':
-            pygame.mixer.music.stop()
+        if self.sound_switch:
+            if stage == 'start':
+                pygame.mixer.music.load("assets\sound\music/Music_default_battle_02.mp3")
+                pygame.mixer.music.play(-1)
+            if stage == 'end':
+                pygame.mixer.music.load("assets\sound\music/Music_default_battle_02_end.mp3")
+                pygame.mixer.music.play()
+            if stage == 'stop':
+                pygame.mixer.music.stop()

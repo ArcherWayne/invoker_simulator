@@ -24,6 +24,8 @@ pygame.display.set_icon(pygame.image.load('assets/graphics/dota2.png'))
 skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \
             'Chaos Meteor', 'Cold Snap', 'Ice Wall', 'Forge Spirit', 'Sun Strike']
 
+key_down_list = [0, 0, 0, 0, 0, 0]
+
 DROP_EVENT = pygame.USEREVENT
 event_speed = 3000
 pygame.time.set_timer(DROP_EVENT, event_speed)
@@ -47,6 +49,9 @@ def update_timer(event_speed):
         event_speed = 1000
     return event_speed
 
+def slots_detection():
+    pass
+
 # main ------------------------------------------------------------------------------------------------------ #
 def main(event_speed):
     last_time = time.time()
@@ -64,21 +69,52 @@ def main(event_speed):
                 sys.exit()
             if main_game.game_state == main_game.game_state_list[0]:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q: main_game.obtain_orb('Quas')
-                    if event.key == pygame.K_w: main_game.obtain_orb('Wex')
-                    if event.key == pygame.K_e: main_game.obtain_orb('Extort')
-                    if event.key == pygame.K_r: main_game.invoke()
-                    if event.key == pygame.K_c: main_game.use_skill(main_game.skill_dict['0'])
-                    if event.key == pygame.K_x: main_game.use_skill(main_game.skill_dict['1'])
-                    if event.key == pygame.K_z: main_game.use_skill(main_game.skill_dict['2'])
-                    if event.key == pygame.K_v: main_game.use_skill(main_game.skill_dict['3'])
-                    if event.key == pygame.K_b: main_game.use_skill(main_game.skill_dict['4'])
-                    if event.key == pygame.K_d: main_game.use_skill(main_game.skill_dict['5'])
-                    if event.key == pygame.K_y: main_game.use_skill(main_game.skill_dict['6'])
-                    if event.key == pygame.K_g: main_game.use_skill(main_game.skill_dict['7'])
-                    if event.key == pygame.K_f: main_game.use_skill(main_game.skill_dict['8'])
-                    if event.key == pygame.K_t: main_game.use_skill(main_game.skill_dict['9'])
-                    if event.key == pygame.K_0: main_game.cheat_key()
+                    if event.key == pygame.K_q:
+                        main_game.obtain_orb('Quas')
+                        key_down_list[0] = 1
+                    if event.key == pygame.K_w:
+                        main_game.obtain_orb('Wex')
+                        key_down_list[1] = 1
+                    if event.key == pygame.K_e:
+                        main_game.obtain_orb('Extort')
+                        key_down_list[2] = 1
+                    if event.key == pygame.K_r:
+                        main_game.invoke()
+                        key_down_list[3] = 1
+                    if event.key == pygame.K_c:
+                        main_game.use_skill(main_game.skill_dict['0'])
+                    if event.key == pygame.K_x:
+                        main_game.use_skill(main_game.skill_dict['1'])
+                    if event.key == pygame.K_z:
+                        main_game.use_skill(main_game.skill_dict['2'])
+                    if event.key == pygame.K_v:
+                        main_game.use_skill(main_game.skill_dict['3'])
+                    if event.key == pygame.K_b:
+                        main_game.use_skill(main_game.skill_dict['4'])
+                    if event.key == pygame.K_d:
+                        main_game.use_skill(main_game.skill_dict['5'])
+                    if event.key == pygame.K_y:
+                        main_game.use_skill(main_game.skill_dict['6'])
+                    if event.key == pygame.K_g:
+                        main_game.use_skill(main_game.skill_dict['7'])
+                    if event.key == pygame.K_f:
+                        main_game.use_skill(main_game.skill_dict['8'])
+                    if event.key == pygame.K_t:
+                        main_game.use_skill(main_game.skill_dict['9'])
+                    if event.key == pygame.K_0:
+                        main_game.cheat_key()
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_q:
+                        key_down_list[0] = 0
+                    if event.key == pygame.K_w:
+                        key_down_list[1] = 0
+                    if event.key == pygame.K_e:
+                        key_down_list[2] = 0
+                    if event.key == pygame.K_r:
+                        key_down_list[3] = 0
+
+
             if event.type == SPEED_UPDATE_EVENT and main_game.game_state == main_game.game_state_list[0]:
                 pygame.time.set_timer(DROP_EVENT, int(event_speed))
 
@@ -104,7 +140,7 @@ def main(event_speed):
             drop_group.update()
             drop_group.draw(screen)
             main_game.update_active()
-            graphics.update_active(main_game.count, main_game.score, main_game.heart)
+            graphics.update_active(main_game.count, main_game.score, main_game.heart, key_down_list)
 
             event_speed = update_timer(event_speed)
 
