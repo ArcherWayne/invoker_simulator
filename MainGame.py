@@ -2,6 +2,7 @@ import pygame, time
 from setting import *
 from debug import debug
 from SoundEffect import SE
+from math import pow
 
 
 class MainGame:
@@ -197,12 +198,14 @@ class MainGame:
                 self.count += 1
                 self.skill_used_interval = time.time() - self.skill_used_time
                 self.skill_used_time = time.time()
-                print(self.skill_used_interval)
+                # print(self.skill_used_interval)
 
                 self.add_score()
 
     def add_score(self):
-        self.score += int((1+0.1*self.count)*(0.5*self.duration_time + (2.5 - 0.5*self.skill_used_interval)))
+        base = 5
+        print(int(pow(base, (0.1*self.count))*(0.5*self.duration_time + (2.5 - 0.5*self.skill_used_interval))))
+        self.score += int(pow(base, (0.1*self.count))*(0.5*self.duration_time + (2.5 - 0.5*self.skill_used_interval)))
 
     def check_collison(self):
         for spirites in self.drop_group:
