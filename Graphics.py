@@ -173,7 +173,7 @@ class Graphics:
 
         self.info_1_list = ['嘿几把, 民工三连都不会!', '哎呦, 天道酬勤懂不懂!', '嘿宝, 小火人控符会不会玩', '高手玩是神，菜鸟玩是狗(特指你)。',\
                 '飓风摧毁停车场', '长的太骚 技能太浪', '走路姿势过于得瑟', '刷的快输出高容易死', '牛逼啊，我让你牛。', '你怎么这么肉?', \
-                '无他，但手熟(卡)尔。']
+                '无他，唯手熟(卡)尔。']
         self.info_1 = choice(self.info_1_list)
 
     def obtain_info(self, slot, orb):
@@ -283,10 +283,10 @@ class Graphics:
         self.draw_slots()
         self.draw_icons()
         self.draw_key()
+        self.refresh_end_info_1()
 
-    def update_fail(self, score):
-        self.end_info(score)
-
+    def refresh_end_info_1(self):
+        self.info_1 = choice(self.info_1_list)
 
     def end_info(self, score):
         info_2 = '你的分:'
@@ -310,3 +310,27 @@ class Graphics:
         screen.blit(info_2_surf, info_2_rect)
         screen.blit(info_3_surf, info_3_rect)
         screen.blit(info_4_surf, info_4_rect)
+
+    def update_fail(self, score):
+        self.end_info(score)
+
+    def update_menu(self):
+        menu_info_title = '卡尔钢琴手模拟器'
+        menu_info_1 = '按下1使用传统按键'
+        menu_info_2 = '按下2使用qewrdf'
+
+
+        menu_info_title_surf = pygame.transform.scale(
+            self.game_font.render(menu_info_title, False, BLACK), (430, 60))
+        menu_info_1_surf = pygame.transform.scale(
+            self.game_font.render(menu_info_1, False, BLACK), (430, 60))
+        menu_info_2_surf = pygame.transform.scale(
+            self.game_font.render(menu_info_2, False, BLACK), (430, 60))
+
+        menu_info_title_rect = menu_info_title_surf.get_rect(midtop = (300, 200))
+        menu_info_1_rect = menu_info_1_surf.get_rect(midtop = (300, 500))
+        menu_info_2_rect = menu_info_2_surf.get_rect(midtop = (300, 600))
+
+        screen.blit(menu_info_title_surf, menu_info_title_rect)
+        screen.blit(menu_info_1_surf, menu_info_1_rect)
+        screen.blit(menu_info_2_surf, menu_info_2_rect)

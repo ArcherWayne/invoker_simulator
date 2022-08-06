@@ -16,6 +16,8 @@ class MainGame:
         # self.se.play_music('stop')
         self.se.play_music('start')
 
+        self.trad_keys = 1
+
         self.orbs_dict = {'0':'Quas', '1':'Wex', '2':'Extort'}
         self.skill_dict = {'0':'EMP', '1':'Tornado', '2':'Alacrity', '3':'Ghost Walk', '4':'Deafening Blast', \
             '5':'Chaos Meteor', '6':'Cold Snap', '7':'Ice Wall', '8':'Forge Spirit', '9':'Sun Strike'}
@@ -69,7 +71,7 @@ class MainGame:
         self.drop_speed = 200
         self.heart = 5
         self.game_state_list = ['active', 'menu', 'fail']
-        self.game_state = self.game_state_list[0]
+        self.game_state = self.game_state_list[1]
 
     # game = active ------------------------------------------------------------------------ # 
 
@@ -186,10 +188,23 @@ class MainGame:
                     self.count += 1
                     self.skill_used_interval = time.time() - self.skill_used_time
                     self.skill_used_time = time.time()
-                    # print(self.skill_used_interval)
                     self.se.play(skill)
 
                     self.add_score()
+
+    def use_skill_qewrdf(self, slot_index):
+
+        for spirites in self.drop_group:
+            if self.slot[slot_index] == spirites.skill and spirites.avaibility:
+                spirites.kill()
+                self.count += 1
+                self.skill_used_interval = time.time() - self.skill_used_time
+                self.skill_used_time = time.time()
+
+                self.se.play(spirites.skill)
+
+                self.add_score()
+
     
     def cheat_key(self):
         for spirites in self.drop_group:
@@ -258,7 +273,10 @@ class MainGame:
         self.se.play_music('stop')
         self.se.play_music('start')
 
-
     def update_fail(self):
         pass
 
+    # game = menu ---------------------------------------------------------------------------- #    
+
+    def update_menu(self):
+        pass

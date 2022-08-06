@@ -61,6 +61,16 @@ def main(event_speed):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
                 pygame.quit()
                 sys.exit()
+
+            if main_game.game_state == main_game.game_state_list[1]:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_1:
+                        main_game.game_state = main_game.game_state_list[0]
+                        main_game.trad_keys = 1
+                    if event.key == pygame.K_2:
+                        main_game.game_state = main_game.game_state_list[0]
+                        main_game.trad_keys = 0
+
             if main_game.game_state == main_game.game_state_list[0]:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
@@ -75,6 +85,19 @@ def main(event_speed):
                     if event.key == pygame.K_r:
                         main_game.invoke()
                         key_down_list[3] = 1
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_q:
+                        key_down_list[0] = 0
+                    if event.key == pygame.K_w:
+                        key_down_list[1] = 0
+                    if event.key == pygame.K_e:
+                        key_down_list[2] = 0
+                    if event.key == pygame.K_r:
+                        key_down_list[3] = 0
+            
+            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 1:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
                         main_game.use_skill(main_game.skill_dict['0'])
                     if event.key == pygame.K_x:
@@ -98,15 +121,12 @@ def main(event_speed):
                     if event.key == pygame.K_0:
                         main_game.cheat_key()
 
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_q:
-                        key_down_list[0] = 0
-                    if event.key == pygame.K_w:
-                        key_down_list[1] = 0
-                    if event.key == pygame.K_e:
-                        key_down_list[2] = 0
-                    if event.key == pygame.K_r:
-                        key_down_list[3] = 0
+            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 0:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_d:
+                        main_game.use_skill(main_game.use_skill_qewrdf(0))
+                    if event.key == pygame.K_f:
+                        main_game.use_skill(main_game.use_skill_qewrdf(1))
 
 
             if event.type == SPEED_UPDATE_EVENT and main_game.game_state == main_game.game_state_list[0]:
@@ -122,6 +142,9 @@ def main(event_speed):
                     main_game.restart()
                     event_speed = 3000
 
+        if main_game.game_state == main_game.game_state_list[1]:    # 主界面
+            screen.fill(WHITE)
+            graphics.update_menu()
 
         if main_game.game_state == main_game.game_state_list[0]:    # 游戏正在执行
             screen.fill(WHITE)

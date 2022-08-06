@@ -29,10 +29,6 @@ class SE:
         self.Sun_Strike_sound = pygame.mixer.Sound("assets/sound/skill_sounds/Sun_Strike.mp3.mpeg")
         self.Invoke_sound = pygame.mixer.Sound("assets/sound/skill_sounds/Invoke.mp3.mpeg")
 
-        # self.battle_02 = pygame.mixer.music.load("assets\sound\music/Music_default_battle_02.mp3")
-        # # self.battle_02 = pygame.mixer.Sound("assets/sound/skill_sounds/Invoke.mp3.mpeg")
-
-
     def play(self, skill):
         match skill:
             case 'EMP': pygame.mixer.Sound.play(self.EMP_sound)
@@ -50,6 +46,7 @@ class SE:
             case 'battle_02_end': pygame.mixer.Sound.play
 
     def play_music(self, stage):
+        pygame.mixer.music.set_volume(0.1)
         if self.sound_switch:
             if stage == 'start':
                 pygame.mixer.music.load("assets\sound\music/Music_default_battle_02.mp3")
@@ -60,4 +57,4 @@ class SE:
             if stage == 'stop':
                 pygame.mixer.music.stop()
 
-            pygame.mixer.music.set_volume(0.5)
+            
