@@ -3,7 +3,7 @@ import pygame
 class SE:
     def __init__(self):
 
-        self.sound_switch = 0
+        self.sound_switch = 1
         # 0 EMP www C   
         # 1 Tornado qww X
         # 2 Alacrity wwe Z  
@@ -59,3 +59,5 @@ class SE:
                 pygame.mixer.music.play()
             if stage == 'stop':
                 pygame.mixer.music.stop()
+
+            pygame.mixer.music.set_volume(0.5)

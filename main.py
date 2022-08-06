@@ -1,5 +1,3 @@
-
-from turtle import update
 import pygame, sys, time, random
 from DropSkills import DropSkill
 from MainGame import MainGame
@@ -15,10 +13,6 @@ screen = pygame.display.set_mode(window_size)
 
 pygame.display.set_caption('Invoker Simulator')
 pygame.display.set_icon(pygame.image.load('assets/graphics/dota2.png'))
-# background_surface = pygame.transform.scale(
-#     pygame.image.load('assets/background/ground.png').convert(), (setting.WIN_WIDTH, setting.WIN_HEIGTH))
-# background_rect = background_surface.get_rect(center=(setting.WIN_WIDTH / 2, setting.WIN_HEIGTH / 2))
-# font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
 ## varibles setup
 skill_list = ['EMP', 'Tornado', 'Alacrity', 'Ghost Walk', 'Deafening Blast', \

@@ -1,4 +1,5 @@
 import pygame
+from random import randint, choice
 from setting import *
 
 
@@ -168,8 +169,12 @@ class Graphics:
         self.heart_rect_3 = pygame.Rect((95, 10), (40, 40))
         self.heart_rect_4 = pygame.Rect((140, 10), (40, 40))
         self.heart_rect_5 = pygame.Rect((185, 10), (40, 40))
-        self.heart_rect_list = [self.heart_rect_1, self.heart_rect_2,
-                                self.heart_rect_3, self.heart_rect_4, self.heart_rect_5]
+        self.heart_rect_list = [self.heart_rect_1, self.heart_rect_2, self.heart_rect_3, self.heart_rect_4, self.heart_rect_5]
+
+        self.info_1_list = ['嘿几把, 民工三连都不会!', '哎呦, 天道酬勤懂不懂!', '嘿宝, 小火人控符会不会玩', '高手玩是神，菜鸟玩是狗(特指你)。',\
+                '飓风摧毁停车场', '长的太骚 技能太浪', '走路姿势过于得瑟', '刷的快输出高容易死', '牛逼啊，我让你牛。', '你怎么这么肉?', \
+                '无他，但手熟(卡)尔。']
+        self.info_1 = choice(self.info_1_list)
 
     def obtain_info(self, slot, orb):
         self.slot = slot
@@ -209,14 +214,6 @@ class Graphics:
         for i, slots in enumerate(key_down_list):
             if slots:
                 screen.blit(red_broad, red_broad_rect[i])
-
-        # match key_down_list:
-        #     case 1: screen.blit(red_broad, red_broad_rect_1)
-        #     case 2: screen.blit(red_broad, red_broad_rect_2)
-        #     case 3: screen.blit(red_broad, red_broad_rect_3)
-        #     case 4: screen.blit(red_broad, red_broad_rect_4)
-        #     case 5: screen.blit(red_broad, red_broad_rect_5)
-        #     case 6: screen.blit(red_broad, red_broad_rect_6)
 
     def draw_icons(self):
         match self.obtained_orbs[0]:
@@ -290,14 +287,14 @@ class Graphics:
     def update_fail(self, score):
         self.end_info(score)
 
+
     def end_info(self, score):
-        info_1 = '嘿几把, 民工三连都不会!'
         info_2 = '你的分:'
         info_3 = str(score)
         info_4 = '按空格重启'
 
         info_1_surf = pygame.transform.scale(
-            self.game_font.render(info_1, False, WHITE), (430, 60))
+            self.game_font.render(self.info_1, False, WHITE), (430, 60))
         info_2_surf = pygame.transform.scale(
             self.game_font.render(info_2, False, WHITE), (140, 60))
         info_3_surf = self.game_font.render(info_3, False, WHITE)
