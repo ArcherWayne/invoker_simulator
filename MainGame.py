@@ -268,7 +268,7 @@ class MainGame:
         self.invoke_dict = {'Quas':0, 'Wex':0, 'Extort':0}
         self.slot = ['', '']
 
-        self.game_state = self.game_state_list[0]
+        self.game_state = self.game_state_list[1]
 
         self.se.play_music('stop')
         self.se.play_music('start')

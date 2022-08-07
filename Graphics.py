@@ -157,6 +157,16 @@ class Graphics:
         r_topleft = self.Invoke_slot_rect.topleft
         self.r_rect = self.r_surf.get_rect(topleft=r_topleft)
 
+        d_text = 'D'
+        self.d_surf = self.game_font.render(d_text, True, WHITE)
+        d_topleft = (395, 690)
+        self.d_rect = self.d_surf.get_rect(topleft=d_topleft)
+
+        f_text = 'F'
+        self.f_surf = self.game_font.render(f_text, True, WHITE)
+        f_topleft = (485, 690)
+        self.f_rect = self.f_surf.get_rect(topleft=f_topleft)
+
         self.slot_key_topleft = []
         self.slot_key_topleft.append(self.slot_1_rect.topleft)
         self.slot_key_topleft.append(self.slot_2_rect.topleft)
@@ -194,14 +204,14 @@ class Graphics:
                 screen.blit(self.skill_image_slot_dict[key], self.slot_2_rect)
 
     def blit_red_broad(self, key_down_list):
-        red_road_size = (90, 90)
+        red_broad_size = (90, 90)
         topleft_1 = (30, 685)
         topleft_2 = (120, 685)
         topleft_3 = (210, 685)
         topleft_4 = (300, 685)
         topleft_5 = (390, 685)
         topleft_6 = (480, 685)
-        red_broad = pygame.Surface(red_road_size).convert_alpha()
+        red_broad = pygame.Surface(red_broad_size).convert_alpha()
         red_broad.fill(RED)
         red_broad_rect_1 = red_broad.get_rect(topleft=topleft_1)
         red_broad_rect_2 = red_broad.get_rect(topleft=topleft_2)
@@ -238,20 +248,11 @@ class Graphics:
             case 'Extort':
                 screen.blit(self.skill_image_icon_dict['2'], self.icon_3_rect)
 
-    def draw_key(self):
-        # -------------------------------------------------------------------------------- #
+    def draw_key(self, trad_keys):
         screen.blit(self.q_surf, self.q_rect)
         screen.blit(self.w_surf, self.w_rect)
         screen.blit(self.e_surf, self.e_rect)
         screen.blit(self.r_surf, self.r_rect)
-
-        # -------------------------------------------------------------------------------- #
-        for i, skill in enumerate(self.slot):
-            self.skill_key_surf[i] = self.game_font.render(
-                self.key_dict[self.skill_dict_reverse[str(skill)]], True, WHITE)
-            self.skill_key_rect[i] = self.skill_key_surf[i].get_rect(
-                topleft=self.slot_key_topleft[i])
-            screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])
 
         for spirites in self.drop_skill_group:
             drop_skill_name = spirites.skill
@@ -260,6 +261,18 @@ class Graphics:
             drop_skill_comb_rect = drop_skill_comb_surf.get_rect(
                 topleft=spirites.rect.topleft)
             screen.blit(drop_skill_comb_surf, drop_skill_comb_rect)
+
+        if trad_keys == 0:
+            screen.blit(self.d_surf, self.d_rect)
+            screen.blit(self.f_surf, self.f_rect)
+
+        if trad_keys:
+            for i, skill in enumerate(self.slot):
+                self.skill_key_surf[i] = self.game_font.render(
+                    self.key_dict[self.skill_dict_reverse[str(skill)]], True, WHITE)
+                self.skill_key_rect[i] = self.skill_key_surf[i].get_rect(
+                    topleft=self.slot_key_topleft[i])
+                screen.blit(self.skill_key_surf[i], self.skill_key_rect[i])
 
     def draw_count(self, count):
         count_surf = self.game_font.render('连击:'+str(count), True, RED)
@@ -275,14 +288,14 @@ class Graphics:
         for i in range(heart):  # 0 1 2 3 4
             screen.blit(self.heart_image, self.heart_rect_list[i])
 
-    def update_active(self, count, score, heart, key_down_list):
+    def update_active(self, count, score, heart, key_down_list, trad_keys):
         self.blit_red_broad(key_down_list)
         self.draw_count(count)
         self.draw_score(score)
         self.draw_heart(heart)
         self.draw_slots()
         self.draw_icons()
-        self.draw_key()
+        self.draw_key(trad_keys)
         self.refresh_end_info_1()
 
     def refresh_end_info_1(self):

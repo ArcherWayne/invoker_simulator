@@ -96,7 +96,7 @@ def main(event_speed):
                     if event.key == pygame.K_r:
                         key_down_list[3] = 0
             
-            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 1:
+            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 1:           # 传统按键
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
                         main_game.use_skill(main_game.skill_dict['0'])
@@ -121,12 +121,20 @@ def main(event_speed):
                     if event.key == pygame.K_0:
                         main_game.cheat_key()
 
-            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 0:
+            if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 0:           # qwerdf按键
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_d:
                         main_game.use_skill(main_game.use_skill_qewrdf(0))
+                        key_down_list[4] = 1
                     if event.key == pygame.K_f:
                         main_game.use_skill(main_game.use_skill_qewrdf(1))
+                        key_down_list[5] = 1
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_d:
+                        key_down_list[4] = 0
+                    if event.key == pygame.K_f:
+                        key_down_list[5] = 0
 
 
             if event.type == SPEED_UPDATE_EVENT and main_game.game_state == main_game.game_state_list[0]:
@@ -157,7 +165,7 @@ def main(event_speed):
             drop_group.update()
             drop_group.draw(screen)
             main_game.update_active()
-            graphics.update_active(main_game.count, main_game.score, main_game.heart, key_down_list)
+            graphics.update_active(main_game.count, main_game.score, main_game.heart, key_down_list, main_game.trad_keys)
 
             event_speed = update_timer(event_speed)
 
