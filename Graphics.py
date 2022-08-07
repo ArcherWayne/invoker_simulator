@@ -13,8 +13,10 @@ class Graphics:
                                    'Chaos Meteor': '5', 'Cold Snap': '6', 'Ice Wall': '7', 'Forge Spirit': '8', 'Sun Strike': '9', '': ''}
         self.key_dict = {'0': 'C', '1': 'X', '2': 'Z', '3': 'V', '4': 'B',
                          '5': 'D', '6': 'Y', '7': 'G', '8': 'F', '9': 'T', '': ''}
-        self.comb_dict = {'EMP': 'WWW', 'Tornado': 'QWW', 'Alacrity': 'WWE', 'Ghost Walk': 'QQW', 'Deafening Blast': 'QWE',
-                          'Chaos Meteor': 'WEE', 'Cold Snap': 'QQQ', 'Ice Wall': 'QQE', 'Forge Spirit': 'QEE', 'Sun Strike': 'EEE'}
+        self.comb_dict = {'EMP': 'WWW', 'Tornado': 'WWQ', 'Alacrity': 'WWE', 'Ghost Walk': 'QQW', 'Deafening Blast': 'QWE',
+                          'Chaos Meteor': 'EEW', 'Cold Snap': 'QQQ', 'Ice Wall': 'QQE', 'Forge Spirit': 'EEQ', 'Sun Strike': 'EEE'}
+        # self.comb_dict = {'EMP': 'WWW', 'Tornado': 'QWW', 'Alacrity': 'WWE', 'Ghost Walk': 'QQW', 'Deafening Blast': 'QWE',
+        #                   'Chaos Meteor': 'WEE', 'Cold Snap': 'QQQ', 'Ice Wall': 'QQE', 'Forge Spirit': 'QEE', 'Sun Strike': 'EEE'}
         self.skill_key_surf = ['', '']
         self.skill_key_rect = ['', '']
         self.drop_skill_group = group

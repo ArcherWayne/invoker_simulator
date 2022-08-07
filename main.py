@@ -1,3 +1,4 @@
+from tkinter import E
 import pygame, sys, time, random
 from DropSkills import DropSkill
 from MainGame import MainGame
@@ -48,6 +49,8 @@ def slots_detection():
 
 # main ------------------------------------------------------------------------------------------------------ #
 def main(event_speed):
+    slot_i = None
+
     last_time = time.time()
     while True:
 
@@ -99,25 +102,43 @@ def main(event_speed):
             if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 1:           # 传统按键
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
-                        main_game.use_skill(main_game.skill_dict['0'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['0'])
                     if event.key == pygame.K_x:
-                        main_game.use_skill(main_game.skill_dict['1'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['1'])
                     if event.key == pygame.K_z:
-                        main_game.use_skill(main_game.skill_dict['2'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['2'])
                     if event.key == pygame.K_v:
-                        main_game.use_skill(main_game.skill_dict['3'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['3'])
                     if event.key == pygame.K_b:
-                        main_game.use_skill(main_game.skill_dict['4'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['4'])
                     if event.key == pygame.K_d:
-                        main_game.use_skill(main_game.skill_dict['5'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['5'])
                     if event.key == pygame.K_y:
-                        main_game.use_skill(main_game.skill_dict['6'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['6'])
                     if event.key == pygame.K_g:
-                        main_game.use_skill(main_game.skill_dict['7'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['7'])
                     if event.key == pygame.K_f:
-                        main_game.use_skill(main_game.skill_dict['8'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['8'])
                     if event.key == pygame.K_t:
-                        main_game.use_skill(main_game.skill_dict['9'])
+                        slot_i = main_game.use_skill(main_game.skill_dict['9'])
+
+                    match slot_i:
+                        case None:
+                            pass
+                        case 0:
+                            key_down_list[4] = 1
+                        case 1:
+                            key_down_list[5] = 1
+
+                    # FIXME: 在此处补充一个检测不同技能键弹起修改keydowlist的功能
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_F10:
+                        pass
+                    else:
+                        key_down_list[4] = 0
+                        key_down_list[5] = 0
+
                     if event.key == pygame.K_0:
                         main_game.cheat_key()
 
