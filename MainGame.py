@@ -70,10 +70,18 @@ class MainGame:
         self.start_time = time.time()
         self.skill_used_time = self.start_time
         self.count = 0
+        self.highest_count = 0
         self.drop_speed = 200
         self.heart = 5
         self.game_state_list = ['active', 'menu', 'fail']
         self.game_state = self.game_state_list[1]
+        self.game_last_state = self.game_state_list[1]
+        # FIXME: 在每个状态的update中添加self.game_last_state判断
+
+        self.used_cheat_keys = 0
+
+        # record files
+        self.filename = 'playrecords.txt'
 
     # game = active ------------------------------------------------------------------------ #
 
@@ -189,23 +197,12 @@ class MainGame:
             self.invoke_dict = {'Quas': 0, 'Wex': 0, 'Extort': 0}
 
     def use_skill(self, skill):
-        # if skill in self.slot:
-        #     for spirites in self.drop_group:
-        #         if skill == spirites.skill and spirites.avaibility:
-        #             spirites.kill()
-        #             self.count += 1
-        #             self.skill_used_interval = time.time() - self.skill_used_time
-        #             self.skill_used_time = time.time()
-        #             self.se.play(skill)
-
-        #             self.add_score()
-
         for i, slot in enumerate(self.slot):
             if skill == slot:
                 for spirites in self.drop_group:
                     if skill == spirites.skill and spirites.avaibility:
                         spirites.kill()
-                        self.count += 1
+                        self.add_count()
                         self.skill_used_interval = time.time() - self.skill_used_time
                         self.skill_used_time = time.time()
                         self.se.play(skill)
@@ -220,7 +217,7 @@ class MainGame:
         for spirites in self.drop_group:
             if self.slot[slot_index] == spirites.skill and spirites.avaibility:
                 spirites.kill()
-                self.count += 1
+                self.add_count()
                 self.skill_used_interval = time.time() - self.skill_used_time
                 self.skill_used_time = time.time()
 
@@ -232,12 +229,18 @@ class MainGame:
         for spirites in self.drop_group:
             if spirites.avaibility:
                 spirites.kill()
-                self.count += 1
+                self.add_count()
                 self.skill_used_interval = time.time() - self.skill_used_time
                 self.skill_used_time = time.time()
+                self.used_cheat_keys = 1
                 # print(self.skill_used_interval)
 
                 self.add_score()
+
+    def add_count(self):
+        self.count += 1
+        if self.count >= self.highest_count:
+            self.highest_count = self.count
 
     def add_score(self):
         base = 5
@@ -256,13 +259,25 @@ class MainGame:
     def count_break(self):
         self.count = 0
 
-    def game_over(self):
+    def check_game_over(self):
         if self.heart <= 0:
             self.game_state = self.game_state_list[2]
             self.se.play_music('stop')
             self.se.play_music('end')
 
-            
+            with open(self.filename, 'a') as file_object:
+                file_object.seek(0)
+                file_object.write('#---------------'+str(time.asctime(time.localtime(time.time())))+'---------------#\n')
+                if self.used_cheat_keys:
+                    file_object.write('嘿几把使用了作弊键!!!\n')
+                if self.trad_keys:
+                    file_object.write('使用传统快捷键\n')
+                else:
+                    file_object.write('使用qwerdf快捷键\n')
+                file_object.write('分数:'+str(self.score)+'\n')
+                file_object.write('最高连击:'+str(self.highest_count)+'\n')
+
+                file_object.write('\n')
 
     def update_active(self):
         for spirites in self.drop_group:
@@ -277,7 +292,15 @@ class MainGame:
 
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()
-        self.game_over()
+        self.check_game_over()
+
+        if self.game_state != self.game_last_state:
+            print('game state changed!_active')
+
+        # 检查状态的变换, 放在update函数的最后面
+        self.game_last_state = self.game_state
+
+
 
     # game = fail ---------------------------------------------------------------------------- #
     def restart(self):
@@ -287,8 +310,10 @@ class MainGame:
         self.start_time = time.time()
         self.skill_used_time = self.start_time
         self.count = 0
+        self.highest_count = 0
         self.drop_speed = 200
         self.heart = 5
+        self.used_cheat_keys = 0
 
         self.obtained_orbs = ['', '', '']
         self.invoke_dict = {'Quas': 0, 'Wex': 0, 'Extort': 0}
@@ -296,13 +321,38 @@ class MainGame:
 
         self.game_state = self.game_state_list[1]
 
+        self.se.reset_music()
+
         self.se.play_music('stop')
         self.se.play_music('start')
 
+    def find_highest_history_score(self):
+        print('find_highest_history_score')
+        with open(self.filename, 'r') as file_object:
+            for line in file_object:
+                if line[0:2] == '分数:':
+                    print('分数:'+str(line[3:]))
+
+
     def update_fail(self):
-        pass
+        # self.game_state_list = ['active', 'menu', 'fail']
+        if self.game_state != self.game_last_state:
+            print('game state changed!_fail')
+            print('game state: fail')
+            # self.find_highest_history_score()
+
+        if self.game_state != self.game_last_state:
+            pass
+            
+
+        # 检查状态的变换, 放在update函数的最后面
+        self.game_last_state = self.game_state
 
     # game = menu ---------------------------------------------------------------------------- #
 
     def update_menu(self):
-        pass
+
+        if self.game_state != self.game_last_state:
+            print('game state changed!_menu')
+        # 检查状态的变换, 放在update函数的最后面
+        self.game_last_state = self.game_state

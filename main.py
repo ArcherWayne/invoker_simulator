@@ -1,4 +1,3 @@
-from tkinter import E
 import pygame, sys, time, random
 from DropSkills import DropSkill
 from MainGame import MainGame
@@ -88,6 +87,11 @@ def main(event_speed):
                     if event.key == pygame.K_r:
                         main_game.invoke()
                         key_down_list[3] = 1
+                    if event.key == pygame.K_0:
+                        main_game.cheat_key()
+
+                    # debug 功能 k键自杀
+                    if event.key == pygame.K_k: main_game.heart = 0
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
@@ -98,6 +102,8 @@ def main(event_speed):
                         key_down_list[2] = 0
                     if event.key == pygame.K_r:
                         key_down_list[3] = 0
+
+
             
             if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 1:           # 传统按键
                 if event.type == pygame.KEYDOWN:
@@ -139,9 +145,6 @@ def main(event_speed):
                         key_down_list[4] = 0
                         key_down_list[5] = 0
 
-                    if event.key == pygame.K_0:
-                        main_game.cheat_key()
-
             if main_game.game_state == main_game.game_state_list[0] and main_game.trad_keys == 0:           # qwerdf按键
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_d:
@@ -173,6 +176,7 @@ def main(event_speed):
 
         if main_game.game_state == main_game.game_state_list[1]:    # 主界面
             screen.fill(WHITE)
+            main_game.update_menu()
             graphics.update_menu()
 
         if main_game.game_state == main_game.game_state_list[0]:    # 游戏正在执行
@@ -195,14 +199,10 @@ def main(event_speed):
             main_game.update_fail()
             graphics.update_fail(main_game.score)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
-                    pygame.quit()
-                    sys.exit()
-                
-
-        # if main_game.game_state == main_game.game_state_list[1]:    # 菜单界面
-        #     screen.fill(WHITE)
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
+            #         pygame.quit()
+            #         sys.exit()
 
         pygame.display.update()
 
