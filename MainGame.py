@@ -1,5 +1,6 @@
 import pygame
 import time
+from random import randint
 from setting import *
 from debug import debug
 from SoundEffect import SE
@@ -16,6 +17,7 @@ class MainGame:
         self.se = SE()
         # self.se.play_music('stop')
         self.se.play_music('start')
+        self.se.play_dialog('spawn')
 
         self.trad_keys = 1
 
@@ -76,12 +78,13 @@ class MainGame:
         self.game_state_list = ['active', 'menu', 'fail']
         self.game_state = self.game_state_list[1]
         self.game_last_state = self.game_state_list[1]
-        # FIXME: 在每个状态的update中添加self.game_last_state判断
 
         self.used_cheat_keys = 0
 
         # record files
         self.filename = 'playrecords.txt'
+        self.history_highest_score = 0
+        self.history_highest_count = 0
 
     # game = active ------------------------------------------------------------------------ #
 
@@ -206,8 +209,11 @@ class MainGame:
                         self.skill_used_interval = time.time() - self.skill_used_time
                         self.skill_used_time = time.time()
                         self.se.play(skill)
+                        if randint(0, 30) == 1:
+                            self.se.play_dialog('cast')
 
                         self.add_score()
+
 
                 return i
             else:
@@ -222,6 +228,8 @@ class MainGame:
                 self.skill_used_time = time.time()
 
                 self.se.play(spirites.skill)
+                if randint(0, 30) == 1:
+                            self.se.play_dialog('cast')
 
                 self.add_score()
 
@@ -268,14 +276,17 @@ class MainGame:
             with open(self.filename, 'a') as file_object:
                 file_object.seek(0)
                 file_object.write('#---------------'+str(time.asctime(time.localtime(time.time())))+'---------------#\n')
-                if self.used_cheat_keys:
-                    file_object.write('嘿几把使用了作弊键!!!\n')
                 if self.trad_keys:
                     file_object.write('使用传统快捷键\n')
                 else:
                     file_object.write('使用qwerdf快捷键\n')
-                file_object.write('分数:'+str(self.score)+'\n')
-                file_object.write('最高连击:'+str(self.highest_count)+'\n')
+                if self.used_cheat_keys:
+                    file_object.write('嘿几把使用了作弊键!!!\n')
+                    file_object.write(' 分数:'+str(self.score)+'\n')
+                    file_object.write(' 最高连击:'+str(self.highest_count)+'\n')
+                else:
+                    file_object.write('分数:'+str(self.score)+'\n')
+                    file_object.write('最高连击:'+str(self.highest_count)+'\n')
 
                 file_object.write('\n')
 
@@ -284,6 +295,8 @@ class MainGame:
             if spirites.rect.y > dead_distance:
                 self.count_break()
                 self.heart -= 1
+                if randint(0, 5) == 1:
+                    self.se.play_dialog('failure')
 
         self.duration_time = time.time()-self.start_time
 
@@ -292,14 +305,14 @@ class MainGame:
 
         screen.blit(self.red_surf, self.red_rect)
         self.check_collison()
-        self.check_game_over()
 
-        if self.game_state != self.game_last_state:
-            print('game state changed!_active')
+        # if self.game_state != self.game_last_state:
+        #     print('game state changed!_active')
 
         # 检查状态的变换, 放在update函数的最后面
         self.game_last_state = self.game_state
-
+        # 状态更新的函数, 要放在检查状态换的后面
+        self.check_game_over()
 
 
     # game = fail ---------------------------------------------------------------------------- #
@@ -327,23 +340,27 @@ class MainGame:
         self.se.play_music('start')
 
     def find_highest_history_score(self):
-        print('find_highest_history_score')
         with open(self.filename, 'r') as file_object:
             for line in file_object:
-                if line[0:2] == '分数:':
-                    print('分数:'+str(line[3:]))
+                # print(str(line[0:2]))
+                if str(line[0:3]) == '分数:':
+                    if int(line[3:]) > self.history_highest_score:
+                        self.history_highest_score = int(line[3:])
 
+                if str(line[0:5]) == '最高连击:':
+                    if int(line[5:]) > self.history_highest_count:
+                        self.history_highest_count = int(line[5:])
 
     def update_fail(self):
+        # print('update_fail')
         # self.game_state_list = ['active', 'menu', 'fail']
         if self.game_state != self.game_last_state:
-            print('game state changed!_fail')
-            print('game state: fail')
-            # self.find_highest_history_score()
+            self.find_highest_history_score()
+            if randint(0, 11) < 5 and self.score < 1000:
+                self.se.play_dialog('failure')
 
-        if self.game_state != self.game_last_state:
-            pass
-            
+            if self.score > 60000:
+                self.se.play_dialog('high_scoure')
 
         # 检查状态的变换, 放在update函数的最后面
         self.game_last_state = self.game_state
@@ -351,8 +368,9 @@ class MainGame:
     # game = menu ---------------------------------------------------------------------------- #
 
     def update_menu(self):
-
+        
         if self.game_state != self.game_last_state:
-            print('game state changed!_menu')
+            if randint(0, 11) < 5:
+                self.se.play_dialog('attack')
         # 检查状态的变换, 放在update函数的最后面
         self.game_last_state = self.game_state

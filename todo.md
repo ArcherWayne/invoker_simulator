@@ -23,6 +23,16 @@ MainGame.py 用来update和管理类的交互
 ♥ 要更新template文件, 添加MainGame.py 文件 用于游戏状态的管理和类之间的交互. 
 
 游戏状态的变化通过两个变量来检测, 有点像dt的检测方法类似, 然后每帧之间对比这两个变量即可. 
+状态更新的函数, 要放在检查状态换的后面
+   > 比如在此例中, 代码段落如下:
+   >
+   > 检查状态的变换, 放在update函数的最后面
+   >
+   > self.game_last_state = self.game_state
+   >
+   > 状态更新的函数, 要放在检查状态换的后面
+   >
+   > self.check_game_over()
 
 # 程序构思
 

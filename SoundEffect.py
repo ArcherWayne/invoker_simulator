@@ -32,6 +32,47 @@ class SE:
 
         self.background_music_select = choice(range(1, 19))
 
+        self.Invo_attack_01_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_attack_01_zh.mp3.mp3")
+        self.Invo_attack_06_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_attack_06_zh.mp3.mp3")
+        self.Invo_attack_08_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_attack_08_zh.mp3.mp3")
+        self.Invo_attack_09_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_attack_09_zh.mp3.mp3")
+        self.Invo_attack_12_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_attack_12_zh.mp3.mp3")
+
+        self.Invo_attack_list = [self.Invo_attack_01_zh, self.Invo_attack_06_zh, self.Invo_attack_08_zh, self.Invo_attack_09_zh, self.Invo_attack_12_zh]
+
+        self.Invo_failure_01_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_01_zh.mp3.mp3")
+        self.Invo_failure_02_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_02_zh.mp3.mp3")
+        self.Invo_failure_03_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_03_zh.mp3.mp3")
+        self.Invo_failure_04_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_04_zh.mp3.mp3")
+        self.Invo_failure_05_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_05_zh.mp3.mp3")
+        self.Invo_failure_06_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_06_zh.mp3.mp3")
+        self.Invo_failure_09_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_09_zh.mp3.mp3")
+        self.Invo_failure_10_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_10_zh.mp3.mp3")
+        self.Invo_failure_11_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_11_zh.mp3.mp3")
+        self.Invo_failure_12_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_failure_12_zh.mp3.mp3")
+
+        self.Invo_failure_list = [self.Invo_failure_01_zh, self.Invo_failure_02_zh, self.Invo_failure_03_zh, 
+        self.Invo_failure_04_zh, self.Invo_failure_05_zh, self.Invo_failure_06_zh, 
+        self.Invo_failure_09_zh, self.Invo_failure_10_zh, self.Invo_failure_11_zh, 
+        self.Invo_failure_12_zh]
+
+        self.Invo_level_10_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_level_10_zh.mp3.mp3")
+        self.Invo_level_12_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_level_12_zh.mp3.mp3")
+
+        self.Invo_level_list = [self.Invo_level_10_zh, self.Invo_level_12_zh]
+
+        self.Invo_spawn_02_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_spawn_02_zh.mp3.mp3")
+        self.Invo_spawn_03_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_spawn_03_zh.mp3.mp3")
+        self.Invo_spawn_04_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_spawn_04_zh.mp3.mp3")
+        self.Invo_spawn_05_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_spawn_05_zh.mp3.mp3")
+
+        self.Invo_spawn_list = [self.Invo_spawn_02_zh, self.Invo_spawn_03_zh, self.Invo_spawn_04_zh, self.Invo_spawn_05_zh]
+
+        self.Invo_cast_01_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_cast_01_zh.mp3.mp3")
+        self.Invo_cast_02_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_cast_02_zh.mp3.mp3")
+        self.Invo_cast_03_zh = pygame.mixer.Sound("assets/sound/dialog/Invo_cast_03_zh.mp3.mp3")
+
+        self.Invo_cast_list = [self.Invo_cast_01_zh, self.Invo_cast_02_zh, self.Invo_cast_03_zh]
 
     def play(self, skill):
         # pygame.mixer.Sound.set_volume(0.5)
@@ -49,7 +90,20 @@ class SE:
             case 'Invoke':             pygame.mixer.Sound.play(self.Invoke_sound)               .set_volume(0.5)
 
     def play_dialog(self, situation):
-        pass
+        if situation == 'attack':
+            pygame.mixer.Sound.play(choice(self.Invo_attack_list))
+
+        if situation == 'failure':
+            pygame.mixer.Sound.play(choice(self.Invo_failure_list))
+
+        if situation == 'high_scoure':
+            pygame.mixer.Sound.play(choice(self.Invo_level_list))
+
+        if situation == 'spawn':
+            pygame.mixer.Sound.play(choice(self.Invo_spawn_list))
+
+        if situation == 'cast':
+            pygame.mixer.Sound.play(choice(self.Invo_cast_list))
 
     def play_music(self, stage):
         pygame.mixer.music.set_volume(0.3)

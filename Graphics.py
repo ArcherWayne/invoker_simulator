@@ -303,10 +303,15 @@ class Graphics:
     def refresh_end_info_1(self):
         self.info_1 = choice(self.info_1_list)
 
-    def end_info(self, score):
+    def end_info(self, score, highest_count, history_highest_score, history_highest_count):
         info_2 = '你的分:'
         info_3 = str(score)
         info_4 = '按空格重启'
+
+        info_5 = '历史最高分:'+str(history_highest_score)
+        info_6 = '历史最高连击:'+str(history_highest_count)
+
+        info_7 = '最高连击:'+str(highest_count)
 
         info_1_surf = pygame.transform.scale(
             self.game_font.render(self.info_1, False, WHITE), (430, 60))
@@ -316,18 +321,32 @@ class Graphics:
         info_4_surf = pygame.transform.scale(
             self.game_font.render(info_4, False, WHITE), (200, 60))
 
+        info_5_surf = self.game_font.render(info_5, False, WHITE)
+        info_6_surf = self.game_font.render(info_6, False, WHITE)
+
+        info_7_surf = pygame.transform.scale(self.game_font.render(info_7, False, WHITE), (200, 60))
+
         info_1_rect = info_1_surf.get_rect(topleft=(90, 90))
         info_2_rect = info_2_surf.get_rect(topleft=(230, 180))
         info_3_rect = info_3_surf.get_rect(midtop=(300, 250))
-        info_4_rect = info_4_surf.get_rect(topleft=(200, 470))
+        info_4_rect = info_4_surf.get_rect(topleft=(200, 670))
+
+        info_5_rect = info_5_surf.get_rect(midtop=(300, 450))
+        info_6_rect = info_6_surf.get_rect(midtop=(300, 500))
+
+        info_7_rect = info_7_surf.get_rect(midtop=(300, 330))
 
         screen.blit(info_1_surf, info_1_rect)
         screen.blit(info_2_surf, info_2_rect)
         screen.blit(info_3_surf, info_3_rect)
         screen.blit(info_4_surf, info_4_rect)
 
-    def update_fail(self, score):
-        self.end_info(score)
+        screen.blit(info_5_surf, info_5_rect)
+        screen.blit(info_6_surf, info_6_rect)
+        screen.blit(info_7_surf, info_7_rect)
+
+    def update_fail(self, score, highest_count, history_highest_score, history_highest_count):
+        self.end_info(score, highest_count, history_highest_score, history_highest_count)
 
     def update_menu(self):
         menu_info_title = '卡尔钢琴手模拟器'

@@ -197,7 +197,7 @@ def main(event_speed):
         if main_game.game_state == main_game.game_state_list[2]:    # 游戏失败
             screen.fill(BLACK)
             main_game.update_fail()
-            graphics.update_fail(main_game.score)
+            graphics.update_fail(main_game.score, main_game.highest_count, main_game.history_highest_score, main_game.history_highest_count)
 
             # for event in pygame.event.get():
             #     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE):
