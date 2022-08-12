@@ -175,12 +175,15 @@ def main(event_speed):
                     event_speed = 3000
 
         if main_game.game_state == main_game.game_state_list[1]:    # 主界面
-            screen.fill(WHITE)
+            screen.blit(graphics.background_menu, graphics.background_rect)
+            # screen.fill(WHITE)
             main_game.update_menu()
             graphics.update_menu()
 
         if main_game.game_state == main_game.game_state_list[0]:    # 游戏正在执行
-            screen.fill(WHITE)
+            screen.blit(graphics.background_active, graphics.background_rect)
+
+            # screen.fill(WHITE)
             # screen.blit(background_surface, background_rect)
             graphics.obtain_info(main_game.slot, main_game.obtained_orbs)
 

@@ -1,3 +1,4 @@
+from tkinter import W
 import pygame
 from random import randint, choice
 from setting import *
@@ -188,6 +189,14 @@ class Graphics:
                 '无他，唯手熟(卡)尔。']
         self.info_1 = choice(self.info_1_list)
 
+
+        # background
+        self.background_menu = pygame.transform.scale(pygame.image.load('assets/graphics/background_menu.png').convert_alpha(), window_size)
+        self.background_active = pygame.transform.scale(pygame.image.load('assets/graphics/background_active.png').convert_alpha(), window_size)
+        
+        self.background_rect = self.background_menu.get_rect(topleft=(0, 0))
+
+
     def obtain_info(self, slot, orb):
         self.slot = slot
         self.obtained_orbs = orb
@@ -355,15 +364,15 @@ class Graphics:
 
 
         menu_info_title_surf = pygame.transform.scale(
-            self.game_font.render(menu_info_title, False, BLACK), (430, 60))
+            self.game_font.render(menu_info_title, False, WHITE), (430, 60))
         menu_info_1_surf = pygame.transform.scale(
-            self.game_font.render(menu_info_1, False, BLACK), (430, 60))
+            self.game_font.render(menu_info_1, False, WHITE), (430, 60))
         menu_info_2_surf = pygame.transform.scale(
-            self.game_font.render(menu_info_2, False, BLACK), (430, 60))
+            self.game_font.render(menu_info_2, False, WHITE), (430, 60))
 
-        menu_info_title_rect = menu_info_title_surf.get_rect(midtop = (300, 200))
-        menu_info_1_rect = menu_info_1_surf.get_rect(midtop = (300, 500))
-        menu_info_2_rect = menu_info_2_surf.get_rect(midtop = (300, 600))
+        menu_info_title_rect = menu_info_title_surf.get_rect(midtop = (300, 50))
+        menu_info_1_rect = menu_info_1_surf.get_rect(midtop = (300, 630))
+        menu_info_2_rect = menu_info_2_surf.get_rect(midtop = (300, 730))
 
         screen.blit(menu_info_title_surf, menu_info_title_rect)
         screen.blit(menu_info_1_surf, menu_info_1_rect)
